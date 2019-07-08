@@ -1,3 +1,5 @@
+# /etc/skel/.bashrc
+
 export EDITOR=vi
 
 # PS1
