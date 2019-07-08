@@ -7,3 +7,14 @@ echo "export DOTFILES=\"\$HOME/.dotfiles\"" >> .bashrc
 echo "source \$DOTFILES/.bashrc" >> .bashrc
 
 ln .dotfiles/.tmux.conf .tmux.conf
+
+# Special handling for the ChromeOS SDK (chroot)
+if [[ "$*" == "--cros_sdk" ]]
+then
+	echo "Detected --cros_sdk flag. Adding ~/.cros_sdk_bashrc"
+	echo "" >> .bashrc
+	echo "# Import my cros_sdk .bashrc" >> .bashrc
+	echo "source \$DOTFILES/.cros_sdk_bashrc" >> .bashrc
+else
+	echo "Did not detect --cros_sdk flag. Skipping ~/.cros_sdk_bashrc"
+fi

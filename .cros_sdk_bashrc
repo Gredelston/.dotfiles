@@ -1,0 +1,21 @@
+# /etc/skel/.bashrc
+
+# Important constants
+AUTOTEST_DIR='$HOME/trunk/src/third_party/autotest/files'
+TAST_DIR='$HOME/trunk/src/platform/tast'
+DUT_IP='gredelston-host2.bld'
+BOARD='coral'
+
+# Go-links
+alias goautotest='cd $AUTOTEST'
+alias autotestgo='goautotest'
+alias gofaft='goautotest'
+alias faftgo='goautotest'
+alias gotast='cd $TAST_DIR'
+alias tastgo='gotast'
+
+# Testing aliases
+alias faft='sudo test_that --board coral --autotest_dir $AUTOTEST_DIR $DUT_IP'
+alias test_faft='faft firmware_FAFTSetup'
+
+export PS1='(cr) '$PS1
