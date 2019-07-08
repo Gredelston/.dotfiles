@@ -1,3 +1,5 @@
+export EDITOR=vi
+
 # upto, from unix.stackexchange
 upto ()
 {
