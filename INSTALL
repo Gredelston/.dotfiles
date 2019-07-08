@@ -1,0 +1,9 @@
+#!/bin/bash
+cd $HOME
+
+echo "" >> .bashrc
+echo "# Import my standard .bashrc" >> .bashrc
+echo "export DOTFILES=\"$HOME/.dotfiles\"" >> .bashrc
+echo "source $DOTFILES/.bashrc" >> .bashrc
+
+ln .dotfiles/.tmux.conf .tmux.conf

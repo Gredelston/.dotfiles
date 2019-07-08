@@ -1,12 +1,7 @@
-Assuming you clone this repo into ~/.dotfiles, you can set up your environment like so:
+# Installation
+Run `./INSTALL`.
 
-```
-cd ~
-
-echo "" >> .bashrc
-echo "# Import my standard .bashrc" >> .bashrc
-echo "export DOTFILES=\"$HOME/.dotfiles\"" >> .bashrc
-echo "source $DOTFILES/.bashrc" >> .bashrc
-
-ln .tmux.conf .dotfiles/.tmux.conf
-```
+# Todos
+* Add .vimrc
+* Add a separate .bashrc for my chroot stuff
+* Add PS1 to .bashrc
