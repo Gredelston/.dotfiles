@@ -1,20 +1,30 @@
 #!/bin/bash
 cd $HOME
 
+# .bashrc
+echo "Sourcing ~/.dotfiles/.bashrc"
 echo "" >> .bashrc
 echo "# Import my standard .bashrc" >> .bashrc
 echo "export DOTFILES=\"\$HOME/.dotfiles\"" >> .bashrc
 echo "source \$DOTFILES/.bashrc" >> .bashrc
 
-ln .dotfiles/.tmux.conf .tmux.conf
+# .tmux.conf
+if [ -f $HOME/.tmux.conf ]
+then
+	echo "~/.tmux.conf already exists. Skipping ~/.tmux.conf"
+else
+	echo "Symlinking ~/.tmux.conf"
+	ln .dotfiles/.tmux.conf .tmux.conf
+fi
 
-# Special handling for the ChromeOS SDK (chroot)
+# .cros_sdk_bashrc
+# Only include if --cros_sdk was provided
 if [[ "$*" == "--cros_sdk" ]]
 then
-	echo "Detected --cros_sdk flag. Adding ~/.cros_sdk_bashrc"
+	echo "Detected --cros_sdk flag. Sourcing ~/.dotfiles/.cros_sdk_bashrc"
 	echo "" >> .bashrc
 	echo "# Import my cros_sdk .bashrc" >> .bashrc
 	echo "source \$DOTFILES/.cros_sdk_bashrc" >> .bashrc
 else
-	echo "Did not detect --cros_sdk flag. Skipping ~/.cros_sdk_bashrc"
+	echo "Did not detect --cros_sdk flag. Skipping ~/.dotfiles/.cros_sdk_bashrc"
 fi

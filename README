@@ -3,5 +3,4 @@ Run `./INSTALL`.
 
 # Todos
 * Add .vimrc
-* Add a separate .bashrc for my chroot stuff
 * Add PS1 to .bashrc
