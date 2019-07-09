@@ -7,7 +7,7 @@ DUT_IP="gredelston-host2.bld"
 BOARD="coral"
 
 # Go-links
-alias goautotest="cd $AUTOTEST"
+alias goautotest="cd $AUTOTEST_DIR"
 alias autotestgo="goautotest"
 alias gofaft="goautotest"
 alias faftgo="goautotest"
