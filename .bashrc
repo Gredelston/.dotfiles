@@ -34,3 +34,8 @@ _upto()
   COMPREPLY=( $( compgen -W "$d" -- "$cur" ) )
 }
 complete -F _upto upto
+
+# calc, from unix.stackexchange
+calc () {
+  bc -l <<< "$@"
+}
