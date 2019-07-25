@@ -17,5 +17,6 @@ alias tastgo="gotast"
 # Testing aliases
 alias faft="sudo test_that --board coral --autotest_dir $AUTOTEST_DIR $DUT_IP"
 alias test_faft="faft firmware_FAFTSetup"
+alias runservo="sudo servod --board=$BOARD"
 
 export PS1="(cr) $PS1"
