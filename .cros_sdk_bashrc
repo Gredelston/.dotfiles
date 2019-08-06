@@ -29,5 +29,6 @@ find_repo() {
 goto_repo() {
 	cd $(find_repo $1)
 }
+alias goto="goto_repo"
 
 export PS1="(cr) $PS1"
