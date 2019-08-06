@@ -3,6 +3,7 @@
 # Important constants
 AUTOTEST_DIR="$HOME/trunk/src/third_party/autotest/files"
 TAST_DIR="$HOME/trunk/src/platform/tast"
+TAST_TESTS_DIR="$HOME/trunk/src/platform/tast-tests"
 DUT_IP="gredelston-host2.bld"
 BOARD="coral"
 
@@ -13,10 +14,20 @@ alias gofaft="goautotest"
 alias faftgo="goautotest"
 alias gotast="cd $TAST_DIR"
 alias tastgo="gotast"
+alias gotast-tests="cd $TAST_TESTS_DIR"
 
 # Testing aliases
-alias faft="sudo test_that --board coral --autotest_dir $AUTOTEST_DIR $DUT_IP"
+alias faft="sudo test_that --board=$BOARD --autotest_dir $AUTOTEST_DIR $DUT_IP"
 alias test_faft="faft firmware_FAFTSetup"
 alias runservo="sudo servod --board=$BOARD"
+
+# Find a repo
+REPO_ROOT="$HOME/trunk"
+find_repo() {
+	echo $REPO_ROOT/$(grep -Rn $1 $REPO_ROOT/.repo/manifests/external_full.xml | grep path | sed -E 's/^[^=]+=\"([^"]+)\"/\1/')
+}
+goto_repo() {
+	cd $(find_repo $1)
+}
 
 export PS1="(cr) $PS1"
