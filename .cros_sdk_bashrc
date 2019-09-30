@@ -24,7 +24,7 @@ alias runservo="sudo servod --board=$BOARD"
 # Find a repo
 REPO_ROOT="$HOME/trunk"
 find_repo() {
-	echo $REPO_ROOT/$(repo list | grep $1 | sed -E 's/ : .+$//')
+	echo $REPO_ROOT/$(grep -Rn $1 $REPO_ROOT/.repo/manifests/external_full.xml $REPO_ROOT/.repo/manifests/internal_full.xml | grep path | sed -E 's/.*path=\"([^"]+)\"/\1/')
 }
 goto_repo() {
 	cd $(find_repo $1)
