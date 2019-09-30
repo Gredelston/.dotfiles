@@ -2,6 +2,9 @@
 
 export EDITOR=vi
 
+# Aliases
+alias g='git'
+
 # PS1
 PS1_GITBRANCH='\[\033[00m\]$(r=$?; __git_ps1 "(%s)"; exit $r)'
 PS1_PWD='\[\033[01;34m\]\w'
