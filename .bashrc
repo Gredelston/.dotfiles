@@ -3,6 +3,7 @@
 export EDITOR=vi
 
 # Aliases
+alias ..="cd .."
 alias g='git'
 
 # PS1
