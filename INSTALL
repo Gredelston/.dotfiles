@@ -17,6 +17,16 @@ else
 	ln .dotfiles/.tmux.conf .tmux.conf
 fi
 
+# .vimrc
+if [ -f $HOME/.vimrc]
+then
+	echo "~/.vimrc already exists. Appending 'source .dotfiles/.vimrc'"
+	echo "source .dotfiles/.vimrc" >> .vimrc
+else
+	echo "Symlinking ~/.vimrc"
+	ln .dotfiles/.vimrc .vimrc
+fi
+
 # .cros_sdk_bashrc
 # Only include if --cros_sdk was provided
 if [[ "$*" == "--cros_sdk" ]]
