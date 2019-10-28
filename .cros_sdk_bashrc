@@ -31,4 +31,9 @@ goto_repo() {
 }
 alias goto="goto_repo"
 
+# Text-based adventures will be the end of me
+alias runto="goto"
+alias where="pwd"
+
+# Fix that command prompt
 export PS1="(cr) $PS1"
