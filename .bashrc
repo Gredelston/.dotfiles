@@ -39,3 +39,80 @@ complete -F _upto upto
 calc () {
   bc -l <<< "$@"
 }
+
+# atest alias: Find a device
+find_lab_device() {
+  DEVICE=$(atest host list --label=pool:faft-test,board:$1 --status=Ready --hostnames-only --unlocked | grep -e "chromeos1-")
+  if [ -z "$DEVICE" ] # If empty
+  then
+    DEVICE=$(atest host list --label=pool:faft-test,board:$1 --status=Ready --hostnames-only --unlocked | grep -e "chromeos[246]-")
+    if [ -z "$DEVICE" ]
+    then
+      DEVICE=$(atest host list --label=pool:suites,board:$1 --status=Ready --hostnames-only --unlocked | grep -e "chromeos[246]-")
+      if [ -z "$DEVICE" ]
+      then
+        return 1
+      else
+        echo $DEVICE
+        return 0
+      fi
+    else
+      echo $DEVICE
+      return 0
+    fi
+  else
+    echo $DEVICE
+    return 0
+  fi
+}
+
+gimme_lab_device() {
+  if [ ! -z $ATEST_DUT_IP ]
+  then
+    echo Cannot gimme_lab_device when you already have one locked!
+    echo Current locked DUT: $ATEST_DUT_IP
+    return 1
+  fi
+  if [ -z $1 ]
+  then
+    echo Please specify a board.
+    return 1
+  fi
+  DEVICES=$(find_lab_device $1)
+  if [ -z "$DEVICES" ]
+  then
+    echo No device found.
+    return 1
+  fi
+  export ATEST_DUT_IP=echo "$DEVICES" | awk '{print $1;}'
+  atest host mod --lock $ATEST_DUT_IP --lock_reason "Testing a server-side Autotest/Tast change"
+  return $?
+}
+
+atest_that () {
+  if [ -z $ATEST_DUT_IP ]
+  then
+    echo "Cannot run test_that if you haven't locked a DUT."
+    return 1
+  fi
+  if [ -z $1 ]
+  then
+    echo "Please supply a test, such as firmware_FAFTSetup."
+    return 1
+  fi
+  local ATEST_BOARD=atest host stat $ATEST_DUT_IP | grep -oP '\(?\<=board:\)\\w+'
+  local ATEST_SHOST=atest host stat $ATEST_DUT_IP | grep -oP '\(?\<=servo_host\\s:\\s\)[a-z0-9\-]+'
+  local ATEST_SPORT=atest host stat $ATEST_DUT_IP | grep -oP '\(?\<=servo_port\\s:\\s\)[0-9]+'
+  cros_sdk test_that --autotest_dir $AUTOTEST_DIR --board $ATEST_BOARD --args "servo_host=$ATEST_SHOST servo_port=$ATEST_SPORT" $ATEST_DUT_IP $1
+  return $?
+}
+
+unlock_lab_device() {
+  if [ -z $ATEST_DUT_IP ]
+  then
+    echo Can\'t unlock lab device when \$ATEST_DUT_IP is unset!
+    return 1
+  fi
+  atest host mod --unlock $ATEST_DUT_IP
+  unset ATEST_DUT_IP
+}
