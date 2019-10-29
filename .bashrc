@@ -97,7 +97,7 @@ gimme_lab_device() {
     echo No device found.
     return 1
   fi
-  export ATEST_DUT_IP=echo "$DEVICES" | awk '{print $1;}'
+  export ATEST_DUT_IP=$(echo $DEVICES | awk '{print $1;}')
   atest host mod --lock $ATEST_DUT_IP --lock_reason "Testing a server-side Autotest/Tast change"
   return $?
 }
@@ -113,10 +113,14 @@ atest_that () {
     echo "Please supply a test, such as firmware_FAFTSetup."
     return 1
   fi
-  local ATEST_BOARD=atest host stat $ATEST_DUT_IP | grep -oP '\(?\<=board:\)\\w+'
-  local ATEST_SHOST=atest host stat $ATEST_DUT_IP | grep -oP '\(?\<=servo_host\\s:\\s\)[a-z0-9\-]+'
-  local ATEST_SPORT=atest host stat $ATEST_DUT_IP | grep -oP '\(?\<=servo_port\\s:\\s\)[0-9]+'
-  cros_sdk test_that --autotest_dir $AUTOTEST_DIR --board $ATEST_BOARD --args "servo_host=$ATEST_SHOST servo_port=$ATEST_SPORT" $ATEST_DUT_IP $1
+  echo 'Getting DUT info from atest host stat'
+  local ATEST_BOARD=$(atest host stat $ATEST_DUT_IP | grep -oP '\(?\<=board:\)\\w+')
+  local ATEST_SHOST=$(atest host stat $ATEST_DUT_IP | grep -oP '\(?\<=servo_host\\s:\\s\)[a-z0-9\-]+')
+  local ATEST_SPORT=$(atest host stat $ATEST_DUT_IP | grep -oP '\(?\<=servo_port\\s:\\s\)[0-9]+')
+  cd ~/chromiumos/
+  cmd=echo "cros_sdk test_that --autotest_dir src/third_party/autotest/files/ --board " $ATEST_BOARD " --args \"servo_host=" $ATEST_SHOST " servo_port=" $ATEST_SPORT "\" " $ATEST_DUT_IP " $1"
+  echo "Running cmd: $(cmd)"
+  eval $cmd
   return $?
 }
 
