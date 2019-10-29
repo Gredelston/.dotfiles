@@ -1,20 +1,34 @@
 #!/bin/bash
 cd $HOME
+DOTFILES_DIR='$HOME/.dotfiles'
 
 # .bashrc
+MY_BASHRC='$HOME/.bashrc'
 echo "Sourcing ~/.dotfiles/.bashrc"
-echo "" >> .bashrc
-echo "# Import my standard .bashrc" >> .bashrc
-echo "export DOTFILES=\"\$HOME/.dotfiles\"" >> .bashrc
-echo "source \$DOTFILES/.bashrc" >> .bashrc
+echo "" >> $MY_BASHRC
+echo "# Import my standard .bashrc" >> $MY_BASHRC
+echo "export DOTFILES=\"\$HOME/.dotfiles\"" >> $MY_BASHRC
+echo "source \$DOTFILES/.bashrc" >> $MY_BASHRC
 
 # .tmux.conf
-if [ -f $HOME/.tmux.conf ]
+MY_TMUX_CONF='$HOME/.tmux.conf'
+if [ -f $MY_TMUX_CONF ]
 then
-	echo "~/.tmux.conf already exists. Skipping ~/.tmux.conf"
+	echo "$MY_TMUX_CONF already exists. Skipping $MY_TMUX_CONF"
 else
-	echo "Symlinking ~/.tmux.conf"
-	ln .dotfiles/.tmux.conf .tmux.conf
+	echo "Symlinking $MY_TMUX_CONF"
+	ln $HOME/.dotfiles/.tmux.conf $MY_TMUX_CONF
+fi
+
+# .vimrc
+MY_VIMRC='$HOME/.vimrc'
+if [ -f $MY_VIMRC ]
+then
+	echo "$MY_VIMRC already exists. Appending 'source .dotfiles/.vimrc'"
+	echo "source \$HOME/.dotfiles/.vimrc" >> $MY_VIMRC
+else
+	echo "Symlinking ~/.vimrc"
+	ln $HOME/.dotfiles/.vimrc $MY_VIMRC
 fi
 
 # .cros_sdk_bashrc
@@ -22,9 +36,9 @@ fi
 if [[ "$*" == "--cros_sdk" ]]
 then
 	echo "Detected --cros_sdk flag. Sourcing ~/.dotfiles/.cros_sdk_bashrc"
-	echo "" >> .bashrc
-	echo "# Import my cros_sdk .bashrc" >> .bashrc
-	echo "source \$DOTFILES/.cros_sdk_bashrc" >> .bashrc
+	echo "" >> $MY_BASHRC
+	echo "# Import my cros_sdk .bashrc" >> $MY_BASHRC
+	echo "source \$DOTFILES/.cros_sdk_bashrc" >> $MY_BASHRC
 else
 	echo "Did not detect --cros_sdk flag. Skipping ~/.dotfiles/.cros_sdk_bashrc"
 fi

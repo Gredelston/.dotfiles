@@ -1,6 +1,19 @@
 # /etc/skel/.bashrc
 
 export EDITOR=vi
+export FZF_DEFAULT_OPTS='--multi --height=30%'
+
+# Aliases
+alias ..="cd .."
+alias g='git'
+fzvi ()
+{
+  local file=$(fzf)
+  if [ -z "$file" ]; then
+    return
+  fi
+  vi $file -p
+}
 
 # PS1
 PS1_GITBRANCH='\[\033[00m\]$(r=$?; __git_ps1 "(%s)"; exit $r)'
