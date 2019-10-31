@@ -123,9 +123,9 @@ atest_that () {
     echo ATEST_SPORT: $ATEST_SPORT
   fi
   cd ~/chromiumos/
-  cmd=$(echo cros_sdk test_that --autotest_dir=../third_party/autotest/files/ --board=$ATEST_BOARD --args=\"servo_host=$ATEST_SHOST servo_port=$ATEST_SPORT\" $ATEST_DUT_IP $1)
-  echo Running cmd: $cmd
-  $cmd
+  cmd=(cros_sdk test_that --autotest_dir=../third_party/autotest/files/ --board=$ATEST_BOARD $ATEST_DUT_IP --args="servo_host=$ATEST_SHOST servo_port=$ATEST_SPORT" $1)
+  echo Running cmd: "${cmd[@]}"
+  "${cmd[@]}"
   return $?
 }
 
