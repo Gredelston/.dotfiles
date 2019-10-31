@@ -24,7 +24,7 @@ PS1_ERRORMARK='`if [[ $ERROR_STATUS -eq "0" ]]; then echo "\[\033[0;32m\][✓]";
 PS1_HISTORY='\[\033[0;33m\][\!]'
 PS1_LAMBDA='\[\033[00m\]λ'
 set_error_status () {
-	ERROR_STATUS="$?"
+  ERROR_STATUS="$?"
 }
 export PROMPT_COMMAND=set_error_status
 export PS1="$PS1_GITBRANCH $PS1_PWD $PS1_DELIMITER $PS1_TIMESTAMP $PS1_ERRORMARK\n$PS1_HISTORY $PS1_LAMBDA "
@@ -113,13 +113,15 @@ atest_that () {
     echo "Please supply a test, such as firmware_FAFTSetup."
     return 1
   fi
-  echo 'Getting DUT info from atest host stat'
-  ATEST_BOARD=$(atest host stat $ATEST_DUT_IP | grep -oP '(?<=board:)\w+')
-  echo ATEST_BOARD: $ATEST_BOARD
-  ATEST_SHOST=$(atest host stat $ATEST_DUT_IP | grep -oP '(?<=servo_host\s:\s)[a-z0-9-]+')
-  echo ATEST_SHOST: $ATEST_SHOST
-  ATEST_SPORT=$(atest host stat $ATEST_DUT_IP | grep -oP '(?<=servo_port\s:\s)[0-9]+')
-  echo ATEST_SPORT: $ATEST_SPORT
+  if [ -z $ATEST_BOARD ]; then
+    echo 'Getting DUT info from atest host stat'
+    export ATEST_BOARD=$(atest host stat $ATEST_DUT_IP | grep -oP '(?<=board:)\w+')
+    echo ATEST_BOARD: $ATEST_BOARD
+    export ATEST_SHOST=$(atest host stat $ATEST_DUT_IP | grep -oP '(?<=servo_host\s:\s)[a-z0-9-]+')
+    echo ATEST_SHOST: $ATEST_SHOST
+    export ATEST_SPORT=$(atest host stat $ATEST_DUT_IP | grep -oP '(?<=servo_port\s:\s)[0-9]+')
+    echo ATEST_SPORT: $ATEST_SPORT
+  fi
   cd ~/chromiumos/
   cmd=$(echo cros_sdk test_that --autotest_dir=../third_party/autotest/files/ --board=$ATEST_BOARD --args=\"servo_host=$ATEST_SHOST servo_port=$ATEST_SPORT\" $ATEST_DUT_IP $1)
   echo Running cmd: $cmd
@@ -135,4 +137,7 @@ unlock_lab_device() {
   fi
   atest host mod --unlock $ATEST_DUT_IP
   unset ATEST_DUT_IP
+  unset ATEST_BOARD
+  unset ATEST_SHOST
+  unset ATEST_SPORT
 }
