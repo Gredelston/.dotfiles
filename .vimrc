@@ -17,3 +17,6 @@ Plug 'junegunn/fzf.vim'
 call plug#end()
 
 """ End Vim-Plug section
+
+" Allow saving of files as sudo when I forget to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
