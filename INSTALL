@@ -1,9 +1,9 @@
 #!/bin/bash
 cd $HOME
-DOTFILES_DIR='$HOME/.dotfiles'
+DOTFILES_DIR="$HOME/.dotfiles"
 
 # .bashrc
-MY_BASHRC='$HOME/.bashrc'
+MY_BASHRC="$HOME/.bashrc"
 echo "Sourcing ~/.dotfiles/.bashrc"
 echo "" >> $MY_BASHRC
 echo "# Import my standard .bashrc" >> $MY_BASHRC
@@ -11,7 +11,7 @@ echo "export DOTFILES=\"\$HOME/.dotfiles\"" >> $MY_BASHRC
 echo "source \$DOTFILES/.bashrc" >> $MY_BASHRC
 
 # .tmux.conf
-MY_TMUX_CONF='$HOME/.tmux.conf'
+MY_TMUX_CONF="$HOME/.tmux.conf"
 if [ -f $MY_TMUX_CONF ]
 then
 	echo "$MY_TMUX_CONF already exists. Skipping $MY_TMUX_CONF"
@@ -21,7 +21,7 @@ else
 fi
 
 # .vimrc
-MY_VIMRC='$HOME/.vimrc'
+MY_VIMRC="$HOME/.vimrc"
 if [ -f $MY_VIMRC ]
 then
 	echo "$MY_VIMRC already exists. Appending 'source .dotfiles/.vimrc'"
