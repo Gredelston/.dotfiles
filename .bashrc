@@ -141,3 +141,31 @@ unlock_lab_device() {
   unset ATEST_SHOST
   unset ATEST_SPORT
 }
+
+run_skylab() {
+  USAGE="USAGE: run_skylab dut_ip test_name"
+  if [ -z $1 ]
+  then
+    echo "Missing arg: dut_ip"
+    echo $USAGE
+    return 1
+  else
+    DUT_IP=1
+  fi
+  if [ -z $2 ]
+  then
+    echo "Missing arg: test_name"
+    echo $USAGE
+    return 1
+  fi
+  DUT_IP=$1
+  TEST_NAME=$2
+  SKYLAB_BOARD=$(skylab dut-info $DUT_IP | grep -oP '(?<=Board:)\s*\S+' | xargs)
+  SKYLAB_SHOST=$(skylab dut-info $DUT_IP | grep -oP '(?<=servo_host)\s*\S+' | xargs)
+  SKYLAB_SPORT=$(skylab dut-info $DUT_IP | grep -oP '(?<=servo_port)\s*\w+' | xargs)
+  cd ~/chromiumos/
+  cmd=(cros_sdk sudo test_that --autotest_dir=../third_party/autotest/files/ --board=$SKYLAB_BOARD $DUT_IP --args="servo_host=$SKYLAB_SHOST servo_port=$SKYLAB_SPORT" $TEST_NAME)
+  echo Running cmd: "${cmd[@]}"
+  "${cmd[@]}"
+  return $?
+}
