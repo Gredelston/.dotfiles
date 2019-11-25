@@ -175,3 +175,23 @@ run_skylab() {
   "${cmd[@]}"
   return $?
 }
+
+lease_and_run() {
+  USAGE="USAGE: lease_and_run dut_ip test_name"
+  if [ -z $1 ]
+  then
+    greglog "Missing arg: dut_ip"
+    greglog $USAGE
+    return 1
+  else
+    DUT_IP=1
+  fi
+  if [ -z $2 ]
+  then
+    greglog "Missing arg: test_name"
+    greglog $USAGE
+    return 1
+  fi
+  skylab lease-dut $1
+  run_skylab $1 $2
+}
