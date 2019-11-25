@@ -72,15 +72,15 @@ find_lab_device() {
       then
         return 1
       else
-        echo $DEVICE
+        greglog $DEVICE
         return 0
       fi
     else
-      echo $DEVICE
+      greglog $DEVICE
       return 0
     fi
   else
-    echo $DEVICE
+    greglog $DEVICE
     return 0
   fi
 }
@@ -88,19 +88,19 @@ find_lab_device() {
 gimme_lab_device() {
   if [ ! -z $ATEST_DUT_IP ]
   then
-    echo Cannot gimme_lab_device when you already have one locked!
-    echo Current locked DUT: $ATEST_DUT_IP
+    greglog Cannot gimme_lab_device when you already have one locked!
+    greglog Current locked DUT: $ATEST_DUT_IP
     return 1
   fi
   if [ -z $1 ]
   then
-    echo Please specify a board.
+    greglog Please specify a board.
     return 1
   fi
   DEVICES=$(find_lab_device $1)
   if [ -z "$DEVICES" ]
   then
-    echo No device found.
+    greglog No device found.
     return 1
   fi
   export ATEST_DUT_IP=$(echo $DEVICES | awk '{print $1;}')
@@ -111,26 +111,26 @@ gimme_lab_device() {
 atest_that () {
   if [ -z $ATEST_DUT_IP ]
   then
-    echo "Cannot run test_that if you haven't locked a DUT."
+    greglog "Cannot run test_that if you haven't locked a DUT."
     return 1
   fi
   if [ -z $1 ]
   then
-    echo "Please supply a test, such as firmware_FAFTSetup."
+    greglog "Please supply a test, such as firmware_FAFTSetup."
     return 1
   fi
   if [ -z $ATEST_BOARD ]; then
-    echo 'Getting DUT info from atest host stat'
+    greglog 'Getting DUT info from atest host stat'
     export ATEST_BOARD=$(atest host stat $ATEST_DUT_IP | grep -oP '(?<=board:)\w+')
-    echo ATEST_BOARD: $ATEST_BOARD
+    greglog ATEST_BOARD: $ATEST_BOARD
     export ATEST_SHOST=$(atest host stat $ATEST_DUT_IP | grep -oP '(?<=servo_host\s:\s)[a-z0-9-]+')
-    echo ATEST_SHOST: $ATEST_SHOST
+    greglog ATEST_SHOST: $ATEST_SHOST
     export ATEST_SPORT=$(atest host stat $ATEST_DUT_IP | grep -oP '(?<=servo_port\s:\s)[0-9]+')
-    echo ATEST_SPORT: $ATEST_SPORT
+    greglog ATEST_SPORT: $ATEST_SPORT
   fi
   cd ~/chromiumos/
   cmd=(cros_sdk test_that --autotest_dir=../third_party/autotest/files/ --board=$ATEST_BOARD $ATEST_DUT_IP --args="servo_host=$ATEST_SHOST servo_port=$ATEST_SPORT" $1)
-  echo Running cmd: "${cmd[@]}"
+  greglog Running cmd: "${cmd[@]}"
   "${cmd[@]}"
   return $?
 }
@@ -138,7 +138,7 @@ atest_that () {
 unlock_lab_device() {
   if [ -z $ATEST_DUT_IP ]
   then
-    echo Can\'t unlock lab device when \$ATEST_DUT_IP is unset!
+    greglog Can\'t unlock lab device when \$ATEST_DUT_IP is unset!
     return 1
   fi
   atest host mod --unlock $ATEST_DUT_IP
@@ -152,16 +152,16 @@ run_skylab() {
   USAGE="USAGE: run_skylab dut_ip test_name"
   if [ -z $1 ]
   then
-    echo "Missing arg: dut_ip"
-    echo $USAGE
+    greglog "Missing arg: dut_ip"
+    greglog $USAGE
     return 1
   else
     DUT_IP=1
   fi
   if [ -z $2 ]
   then
-    echo "Missing arg: test_name"
-    echo $USAGE
+    greglog "Missing arg: test_name"
+    greglog $USAGE
     return 1
   fi
   DUT_IP=$1
@@ -171,7 +171,7 @@ run_skylab() {
   SKYLAB_SPORT=$(skylab dut-info $DUT_IP | grep -oP '(?<=servo_port)\s*\w+' | xargs)
   cd ~/chromiumos/
   cmd=(cros_sdk sudo test_that --autotest_dir=../third_party/autotest/files/ --board=$SKYLAB_BOARD $DUT_IP --args="servo_host=$SKYLAB_SHOST servo_port=$SKYLAB_SPORT" $TEST_NAME)
-  echo Running cmd: "${cmd[@]}"
+  greglog Running cmd: "${cmd[@]}"
   "${cmd[@]}"
   return $?
 }
