@@ -2,6 +2,7 @@
 
 export EDITOR=vi
 export FZF_DEFAULT_OPTS='--multi --height=30%'
+export BROWSER=w3m
 
 # Logging
 greglog () {
