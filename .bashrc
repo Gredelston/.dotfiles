@@ -20,6 +20,7 @@ fzvi ()
   fi
   vi $file -p
 }
+alias tmux-zero='tmux switch -t 0 && exit'
 
 # PS1
 PS1_GITBRANCH='\[\033[00m\]$(r=$?; __git_ps1 "(%s)"; exit $r)'
