@@ -5,7 +5,7 @@ export FZF_DEFAULT_OPTS='--multi --height=30%'
 
 # Logging
 greglog () {
-  echo -e "\e[1m\e[36m\e[47mGE! \e[0m\e[36m\e[47m$@\e[0m"
+  echo -e "\e[1m\e[36m\e[47mGE> \e[0m\e[36m\e[47m$@\e[0m"
   return
 }
 
@@ -130,7 +130,7 @@ atest_that () {
   fi
   cd ~/chromiumos/
   cmd=(cros_sdk test_that --autotest_dir=../third_party/autotest/files/ --board=$ATEST_BOARD $ATEST_DUT_IP --args="servo_host=$ATEST_SHOST servo_port=$ATEST_SPORT" $1)
-  greglog Running cmd: "${cmd[@]}"
+  greglog "${cmd[@]}"
   "${cmd[@]}"
   return $?
 }
@@ -171,7 +171,7 @@ run_skylab() {
   SKYLAB_SPORT=$(skylab dut-info $DUT_IP | grep -oP '(?<=servo_port)\s*\w+' | xargs)
   cd ~/chromiumos/
   cmd=(cros_sdk sudo test_that --autotest_dir=../third_party/autotest/files/ --board=$SKYLAB_BOARD $DUT_IP --args="servo_host=$SKYLAB_SHOST servo_port=$SKYLAB_SPORT" $TEST_NAME)
-  greglog Running cmd: "${cmd[@]}"
+  greglog "${cmd[@]}"
   "${cmd[@]}"
   return $?
 }
