@@ -1,3 +1,6 @@
+syntax on
+filetype indent plugin on
+
 " Remaps!
 inoremap jk <ESC>
 nnoremap ; :
