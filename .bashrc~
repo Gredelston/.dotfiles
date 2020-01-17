@@ -24,7 +24,7 @@ fzvi ()
 alias tmux-zero='tmux switch -t 0 && exit'
 
 # PS1
-source ~/.dotfiles/.git-prompt.sh
+source ~/.dotfiles/git-prompt.sh
 PS1_GITBRANCH='\[\033[00m\]$(r=$?; __git_ps1 "(%s)"; exit $r)'
 PS1_PWD='\[\033[01;34m\]\w'
 PS1_DELIMITER='\[\033[00m\]|'
