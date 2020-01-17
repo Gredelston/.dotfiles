@@ -32,10 +32,7 @@ PS1_TIMESTAMP='\[\033[0;34m\]`/bin/date +"%a %D %-I:%M:%S %p"`'
 PS1_ERRORMARK='`if [[ $ERROR_STATUS -eq "0" ]]; then echo "\[\033[0;32m\][✓]"; else echo "\[\033[0;31m\][✘]"; fi`'
 PS1_HISTORY='\[\033[0;33m\][\!]'
 PS1_LAMBDA='\[\033[00m\]λ'
-set_error_status () {
-  ERROR_STATUS="$?"
-}
-export PROMPT_COMMAND=set_error_status
+export PROMPT_COMMAND=$(ERROR_STATUS="$?")
 export PS1="$PS1_GITBRANCH $PS1_PWD $PS1_DELIMITER $PS1_TIMESTAMP $PS1_ERRORMARK\n$PS1_HISTORY $PS1_LAMBDA "
 
 # upto, from unix.stackexchange
