@@ -4,6 +4,9 @@ export EDITOR=vi
 export FZF_DEFAULT_OPTS='--multi --height=30%'
 export BROWSER=w3m
 
+# Path
+export PATH=${PATH}:${HOME}/scripts
+
 # Logging
 greglog () {
   echo -e "\e[1m\e[36m\e[47mGE> \e[0m\e[36m\e[47m$@\e[0m"
