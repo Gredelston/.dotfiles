@@ -37,3 +37,6 @@ call NERDTreeHighlightFile('py', 'blue', 'none', 'blue', '#151515')
 call NERDTreeHighlightFile('cfg', 'grey', 'none', 'grey', '#151515')
 call NERDTreeHighlightFile('ini', 'grey', 'none', 'grey', '#151515')
 call NERDTreeHighlightFile('md', 'grey', 'none', 'grey', '#151515')
+
+" Ctrl+F to open FZF
+nnoremap <C-f> :FZF<CR>
