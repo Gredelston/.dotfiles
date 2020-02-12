@@ -37,3 +37,6 @@ alias where="pwd"
 
 # Fix that command prompt
 export PS1="(cr) $PS1"
+
+# Golang
+export GOPATH="/usr/lib/gopath"
