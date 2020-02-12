@@ -27,7 +27,12 @@ find_repo() {
 	echo $REPO_ROOT/$(grep -Rn $1 $REPO_ROOT/.repo/manifests/external_full.xml $REPO_ROOT/.repo/manifests/internal_full.xml | grep path | sed -E 's/.*path=\"([^"]+)\"/\1/')
 }
 goto_repo() {
-	cd $(find_repo $1)
+	if [ $1 == ".dotfiles" ]
+	then
+		cd $HOME/.dotfiles
+	else
+		cd $(find_repo $1)
+	fi
 }
 alias goto="goto_repo"
 
