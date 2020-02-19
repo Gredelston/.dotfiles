@@ -27,7 +27,7 @@ find_repo() {
 	echo $REPO_ROOT/$(grep -Rn $1 $REPO_ROOT/.repo/manifests/full.xml $REPO_ROOT/.repo/manifests/internal_full.xml | grep path | sed -E 's/.*path=\"([^"]+)\"/\1/')
 }
 goto_repo() {
-	if [ $1 == ".dotfiles" ]
+	if [[ $1 =~ ^\.?(dotfiles|df)$ ]]
 	then
 		cd $HOME/.dotfiles
 	else
