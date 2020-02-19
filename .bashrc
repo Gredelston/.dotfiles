@@ -3,7 +3,7 @@
 export EDITOR=vi
 export FZF_DEFAULT_OPTS='--multi --height=30%'
 export BROWSER=w3m
-alias ls="ls -B"
+alias ls="ls -B --color"
 
 # Path
 export PATH=${PATH}:${HOME}/scripts
