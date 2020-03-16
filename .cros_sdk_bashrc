@@ -21,6 +21,11 @@ alias faft="sudo test_that --board=$BOARD --autotest_dir $AUTOTEST_DIR $DUT_IP"
 alias test_faft="faft firmware_FAFTSetup"
 alias runservo="sudo servod --board=$BOARD"
 
+# Repo/Git 
+alias rs="repo sync -j64"
+alias ru.="repo upload --cbr ."
+alias gca="git commit --amend"
+
 # Find a repo
 REPO_ROOT="$HOME/trunk"
 find_repo() {
