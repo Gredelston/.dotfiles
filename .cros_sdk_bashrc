@@ -25,6 +25,7 @@ alias runservo="sudo servod --board=$BOARD"
 alias rs="repo sync -j64"
 alias ru.="repo upload --cbr ."
 alias gca="git commit --amend"
+alias gups="git branch --set-upstream-to m/master"
 
 # Find a repo
 REPO_ROOT="$HOME/trunk"
