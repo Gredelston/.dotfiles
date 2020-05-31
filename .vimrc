@@ -16,6 +16,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'tpope/vim-fugitive'
 
 " orgmode and its dependencies
 Plug 'jceb/vim-orgmode'
@@ -45,3 +46,9 @@ call NERDTreeHighlightFile('md', 'grey', 'none', 'grey', '#151515')
 
 " Ctrl+F to open FZF
 nnoremap <C-f> :FZF<CR>
+
+" wincmd shortcuts, for when I'm in SSH
+nnoremap <C-h> :wincmd h<CR>
+nnoremap <C-j> :wincmd j<CR>
+nnoremap <C-k> :wincmd k<CR>
+nnoremap <C-l> :wincmd l<CR>
