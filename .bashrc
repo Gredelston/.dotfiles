@@ -4,6 +4,7 @@ export EDITOR=vi
 export FZF_DEFAULT_OPTS='--multi --height=30%'
 export BROWSER=w3m
 alias ls="ls -B --color"
+alias netflix='firefox www.netflix.com'
 
 # Path
 export PATH=${PATH}:${HOME}/scripts
