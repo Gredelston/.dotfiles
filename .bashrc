@@ -7,6 +7,7 @@ alias ls="ls -B"
 
 # Path
 export PATH=${PATH}:${HOME}/scripts
+export PATH=${PATH}:${HOME}/.local/bin
 
 # Logging
 greglog () {
