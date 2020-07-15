@@ -9,6 +9,7 @@ alias netflix='firefox www.netflix.com'
 # Path
 export PATH=${PATH}:${HOME}/scripts
 export PATH=${PATH}:${HOME}/.local/bin
+export PATH=${PATH}:/usr/local/go/bin
 
 # Logging
 greglog () {
