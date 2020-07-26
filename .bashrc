@@ -23,6 +23,12 @@ greglog () {
   return
 }
 
+# Grep for unique files
+filegrep () {
+  grep -rI $1 | awk -F':' ' { print $1 } ' | uniq
+  return
+}
+
 # Aliases
 alias ..="cd .."
 alias g='git'
