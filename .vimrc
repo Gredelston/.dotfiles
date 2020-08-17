@@ -52,3 +52,8 @@ nnoremap <C-h> :wincmd h<CR>
 nnoremap <C-j> :wincmd j<CR>
 nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
+
+" Macro tricks, from https://hillelwayne.com/vim-macro-trickz/
+nnoremap Q @@
+set lazyredraw
+nnoremap Y y$

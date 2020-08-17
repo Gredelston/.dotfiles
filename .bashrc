@@ -4,13 +4,28 @@ export EDITOR=vi
 export FZF_DEFAULT_OPTS='--multi --height=30%'
 export BROWSER=w3m
 alias ls="ls -B --color"
+alias netflix='firefox www.netflix.com'
 
 # Path
 export PATH=${PATH}:${HOME}/scripts
+export PATH=${PATH}:${HOME}/.local/bin
+export PATH=${PATH}:/usr/local/go/bin
+
+# Host-specific paths
+if [[ $HOSTNAME -eq "gregs-cool-solus" ]]; then
+	export JAVAHOME=/usr/lib/openjdk-11/bin
+	export PATH=${PATH}:${JAVAHOME}
+fi
 
 # Logging
 greglog () {
   echo -e "\e[1m\e[36m\e[47mGE> \e[0m\e[36m\e[47m$@\e[0m"
+  return
+}
+
+# Grep for unique files
+filegrep () {
+  grep -rI $1 | awk -F':' ' { print $1 } ' | uniq
   return
 }
 
@@ -199,3 +214,8 @@ lease_and_run() {
   skylab lease-dut $1
   run_skylab $1 $2
 }
+
+# Start tmux
+if [[ ! $TERM =~ screen ]]; then
+	    exec tmux
+fi
