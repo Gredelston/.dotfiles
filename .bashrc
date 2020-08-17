@@ -25,7 +25,7 @@ fzvi ()
   fi
   vi $file -p
 }
-alias tmux-zero='tmux switch -t 0 && exit'
+alias tmux-zero='tmx2 switch -t 0 && exit'
 
 # PS1
 source ~/.dotfiles/.git-prompt.sh
