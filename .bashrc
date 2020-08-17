@@ -16,6 +16,11 @@ if [[ $(hostname -s) -eq "gregs-cool-solus" ]]; then
 	export JAVAHOME=/usr/lib/openjdk-11/bin
 	export PATH=${PATH}:${JAVAHOME}
 fi
+if [[ $(hostname -s) -eq "gregs-cool-workstation" ]]; then
+        export TMUX_CMD="tmx2"
+else
+        export TMUX_CMD="tmux"
+fi
 
 # Logging
 greglog () {
@@ -40,7 +45,7 @@ fzvi ()
   fi
   vi $file -p
 }
-alias tmux-zero='tmx2 switch -t 0 && exit'
+alias tmux-zero='${TMUX_CMD} switch -t 0 && exit'
 
 # PS1
 source ~/.dotfiles/.git-prompt.sh
