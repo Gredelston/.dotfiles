@@ -7,17 +7,20 @@ import sys
 
 
 BASHRC = '.bashrc'
+GITCONFIG = '.gitconfig'
 TMUX_CONF = '.tmux.conf'
 VIMRC = '.vimrc'
 
 HOME = os.environ['HOME']
 HOME_BASHRC = os.path.join(HOME, BASHRC)
+HOME_GITCONFIG = os.path.join(HOME, GITCONFIG)
 HOME_TMUX_CONF = os.path.join(HOME, TMUX_CONF)
 HOME_VIMRC = os.path.join(HOME, VIMRC)
 
 DF = os.path.join(HOME, '.dotfiles')
 DF_BASHRC = os.path.join(DF, BASHRC)
 DF_CROS_SDK_BASHRC = os.path.join(DF, '.cros_sdk_bashrc')
+DF_GITCONFIG = os.path.join(DF, GITCONFIG)
 DF_TMUX_CONF = os.path.join(DF, TMUX_CONF)
 DF_VIMRC = os.path.join(DF, VIMRC)
 
@@ -42,8 +45,12 @@ class FSInterface(object):
         assert type(lines) is list
         if self.pretend:
             logging.info('PRETEND: Append these lines to %s:', filename)
+            lines = [line.replace('\t', ' '*4) for line in lines]
+            longest = max([len(line) for line in lines])
+            logging.info('-' * (longest + 4))
             for line in lines:
-                logging.info('\t%s', line)
+                logging.info('| %s |', line.ljust(longest))
+            logging.info('-' * (longest + 4))
             return
         with open(filename, 'a') as f:
             logging.info('Appending %d lines to %s', len(lines), filename)
@@ -73,6 +80,13 @@ def setup_bashrc(fsi, cros_sdk=False):
     fsi.append_to_file(HOME_BASHRC, lines)
 
 
+def setup_gitconfig(fsi):
+    logging.info('Including %s in %s', DF_GITCONFIG, HOME_GITCONFIG)
+    lines = ['[include]',
+             '\tpath = %s' % DF_GITCONFIG]
+    fsi.append_to_file(HOME_GITCONFIG, lines)
+
+
 def setup_tmux(fsi):
     if os.path.isfile(TMUX_CONF):
         logging.warn('%s exists. Not linking %s.', HOME_TMUX_CONF, TMUX_CONF)
@@ -92,6 +106,7 @@ def main(argv):
     args = parse_args(argv)
     fsi = FSInterface(args.pretend)
     setup_bashrc(fsi, args.cros_sdk)
+    setup_gitconfig(fsi)
     setup_tmux(fsi)
     setup_vimrc(fsi)
 
