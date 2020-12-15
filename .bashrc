@@ -46,6 +46,7 @@ fzvi ()
   vi $file -p
 }
 alias tmux-zero='${TMUX_CMD} switch -t 0 && exit'
+alias vip="vi -p"
 
 # PS1
 source ~/.dotfiles/.git-prompt.sh
