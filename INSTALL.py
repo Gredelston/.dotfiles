@@ -55,6 +55,7 @@ class FSInterface(object):
         with open(filename, 'a') as f:
             logging.info('Appending %d lines to %s', len(lines), filename)
             for line in lines:
+                f.write('\n')
                 f.write(line)
 
     def create_link(self, target, link_name):
