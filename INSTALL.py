@@ -88,7 +88,7 @@ def setup_gitconfig(fsi):
 
 
 def setup_tmux(fsi):
-    if os.path.isfile(TMUX_CONF):
+    if os.path.isfile(HOME_TMUX_CONF):
         logging.warning('%s exists. Not linking %s.', HOME_TMUX_CONF, TMUX_CONF)
         return
     fsi.create_link(DF_TMUX_CONF, HOME_TMUX_CONF)
