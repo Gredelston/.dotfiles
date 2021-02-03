@@ -73,7 +73,7 @@ def setup_bashrc(fsi, cros_sdk=False):
              'export DF="%s"' % DF,
              'source %s' % DF_BASHRC]
     if cros_sdk:
-        logging.info('Also sourcing %s in %s', DF_CROS_SDK_BASHRC)
+        logging.info('Also sourcing %s in %s', DF_CROS_SDK_BASHRC, HOME_BASHRC)
         lines.extend(['',
                       '# Import my cros_sdk .bashrc',
                       'source %s', DF_CROS_SDK_BASHRC])
