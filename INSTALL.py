@@ -98,7 +98,8 @@ def setup_vimrc(fsi):
     if os.path.isfile(HOME_VIMRC):
         logging.warning('%s exists. Appending "source %s".', HOME_VIMRC, DF_VIMRC)
         fsi.append_to_file(HOME_VIMRC, ['source %s' % DF_VIMRC])
-    fsi.create_link(DF_VIMRC, HOME_VIMRC)
+    else:
+        fsi.create_link(DF_VIMRC, HOME_VIMRC)
 
 
 def main(argv):
