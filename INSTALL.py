@@ -89,14 +89,14 @@ def setup_gitconfig(fsi):
 
 def setup_tmux(fsi):
     if os.path.isfile(TMUX_CONF):
-        logging.warn('%s exists. Not linking %s.', HOME_TMUX_CONF, TMUX_CONF)
+        logging.warning('%s exists. Not linking %s.', HOME_TMUX_CONF, TMUX_CONF)
         return
     fsi.create_link(DF_TMUX_CONF, HOME_TMUX_CONF)
 
 
 def setup_vimrc(fsi):
     if os.path.isfile(HOME_VIMRC):
-        logging.warn('%s exists. Appending "source %s".', HOME_VIMRC, DF_VIMRC)
+        logging.warning('%s exists. Appending "source %s".', HOME_VIMRC, DF_VIMRC)
         fsi.append_to_file(HOME_VIMRC, ['source %s' % DF_VIMRC])
     fsi.create_link(DF_VIMRC, HOME_VIMRC)
 
