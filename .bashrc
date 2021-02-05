@@ -5,6 +5,7 @@ export FZF_DEFAULT_OPTS='--multi --height=30%'
 export BROWSER=w3m
 alias ls="ls -B --color"
 alias netflix='firefox www.netflix.com'
+alias chromiumgo='cd ${HOME}/chromiumos; cros_sdk --no-ns-pid --enter'
 
 # Path
 export PATH=${PATH}:${HOME}/scripts
@@ -13,13 +14,13 @@ export PATH=${PATH}:/usr/local/go/bin
 
 # Host-specific paths
 if [[ $(hostname -s) -eq "gregs-cool-solus" ]]; then
-	export JAVAHOME=/usr/lib/openjdk-11/bin
-	export PATH=${PATH}:${JAVAHOME}
+    export JAVAHOME=/usr/lib/openjdk-11/bin
+    export PATH=${PATH}:${JAVAHOME}
 fi
-if [[ $(hostname -s) -eq "gregs-cool-workstation" ]]; then
-        export TMUX_CMD="tmx2"
+if [[ $(hostname -s) -eq "gregs-cool-cloudtop" ]]; then
+    export TMUX_CMD="tmx2"
 else
-        export TMUX_CMD="tmux"
+    export TMUX_CMD="tmux"
 fi
 
 # Logging
@@ -223,5 +224,5 @@ lease_and_run() {
 
 # Start tmux
 if [[ ! $TERM =~ screen ]]; then
-	    exec tmux
+     exec tmux
 fi
