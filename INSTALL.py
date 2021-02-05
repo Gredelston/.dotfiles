@@ -55,6 +55,7 @@ class FSInterface(object):
         with open(filename, 'a') as f:
             logging.info('Appending %d lines to %s', len(lines), filename)
             for line in lines:
+                f.write('\n')
                 f.write(line)
 
     def create_link(self, target, link_name):
@@ -73,7 +74,7 @@ def setup_bashrc(fsi, cros_sdk=False):
              'export DF="%s"' % DF,
              'source %s' % DF_BASHRC]
     if cros_sdk:
-        logging.info('Also sourcing %s in %s', DF_CROS_SDK_BASHRC)
+        logging.info('Also sourcing %s in %s', DF_CROS_SDK_BASHRC, HOME_BASHRC)
         lines.extend(['',
                       '# Import my cros_sdk .bashrc',
                       'source %s', DF_CROS_SDK_BASHRC])
