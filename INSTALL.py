@@ -55,6 +55,7 @@ class FSInterface(object):
         with open(filename, 'a') as f:
             logging.info('Appending %d lines to %s', len(lines), filename)
             for line in lines:
+                f.write('\n')
                 f.write(line)
 
     def create_link(self, target, link_name):
@@ -73,7 +74,7 @@ def setup_bashrc(fsi, cros_sdk=False):
              'export DF="%s"' % DF,
              'source %s' % DF_BASHRC]
     if cros_sdk:
-        logging.info('Also sourcing %s in %s', DF_CROS_SDK_BASHRC)
+        logging.info('Also sourcing %s in %s', DF_CROS_SDK_BASHRC, HOME_BASHRC)
         lines.extend(['',
                       '# Import my cros_sdk .bashrc',
                       'source %s', DF_CROS_SDK_BASHRC])
@@ -88,17 +89,18 @@ def setup_gitconfig(fsi):
 
 
 def setup_tmux(fsi):
-    if os.path.isfile(TMUX_CONF):
-        logging.warn('%s exists. Not linking %s.', HOME_TMUX_CONF, TMUX_CONF)
+    if os.path.isfile(HOME_TMUX_CONF):
+        logging.warning('%s exists. Not linking %s.', HOME_TMUX_CONF, TMUX_CONF)
         return
     fsi.create_link(DF_TMUX_CONF, HOME_TMUX_CONF)
 
 
 def setup_vimrc(fsi):
     if os.path.isfile(HOME_VIMRC):
-        logging.warn('%s exists. Appending "source %s".', HOME_VIMRC, DF_VIMRC)
+        logging.warning('%s exists. Appending "source %s".', HOME_VIMRC, DF_VIMRC)
         fsi.append_to_file(HOME_VIMRC, ['source %s' % DF_VIMRC])
-    fsi.create_link(DF_VIMRC, HOME_VIMRC)
+    else:
+        fsi.create_link(DF_VIMRC, HOME_VIMRC)
 
 
 def main(argv):
