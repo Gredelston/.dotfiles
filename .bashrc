@@ -12,12 +12,11 @@ export PATH=${PATH}:${HOME}/.local/bin
 export PATH=${PATH}:/usr/local/go/bin
 
 # Host-specific paths
-if [[ $(hostname -s) -eq "gregs-cool-solus" ]]; then
+if [[ $(hostname) == "gregs-cool-workstation*" ]]; then
+        export TMUX_CMD="tmx2"
+elif [[ $(hostname) == "gregs-cool-solus*" ]]; then
 	export JAVAHOME=/usr/lib/openjdk-11/bin
 	export PATH=${PATH}:${JAVAHOME}
-fi
-if [[ $(hostname -s) -eq "gregs-cool-workstation" ]]; then
-        export TMUX_CMD="tmx2"
 else
         export TMUX_CMD="tmux"
 fi
