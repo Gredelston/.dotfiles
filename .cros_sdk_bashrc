@@ -32,7 +32,7 @@ alias gups="git branch --set-upstream-to m/master"
 # Find a repo
 TRUNK="$HOME/trunk"
 find_repo() {
-	echo ${TRUNK}/$(grep -Rn $1 ${TRUNK}/manifest-internal/full.xml ${TRUNK}/manifest-internal/internal_full.xml | grep path | sed -E 's/.*path=\"([^"]+)\"/\1/')
+	echo ${TRUNK}/$(grep -Rn $1 ${TRUNK}/manifest-internal/full.xml ${TRUNK}/manifest-internal/internal_full.xml | grep path | sed -E 's/.*path=\"([^"]+)\"/\1/') | cut -d " " -f1
 }
 goto_repo() {
 	if [[ $1 =~ ^\.?(dotfiles|df)$ ]]; then
