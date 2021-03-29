@@ -32,15 +32,27 @@ alias tmux-zero='tmux switch -t 0 && exit'
 
 # PS1
 source ~/.dotfiles/.git-prompt.sh
-PS1_GITBRANCH='\[\033[00m\]$(r=$?; __git_ps1 "(%s)"; exit $r)'
-PS1_PWD='\[\033[01;34m\]\w'
-PS1_DELIMITER='\[\033[00m\]|'
-PS1_TIMESTAMP='\[\033[0;34m\]`/bin/date +"%a %D %-I:%M:%S %p"`'
-PS1_ERRORMARK='`if [[ $ERROR_STATUS -eq "0" ]]; then echo "\[\033[0;32m\][✓]"; else echo "\[\033[0;31m\][✘]"; fi`'
-PS1_HISTORY='\[\033[0;33m\][\!]'
-PS1_LAMBDA='\[\033[00m\]λ'
-export PROMPT_COMMAND=$(ERROR_STATUS="$?")
-export PS1="$PS1_GITBRANCH $PS1_PWD $PS1_DELIMITER $PS1_TIMESTAMP $PS1_ERRORMARK\n$PS1_HISTORY $PS1_LAMBDA "
+PROMPT_COMMAND=__prompt_command # Generate PS1 after commands
+__prompt_command() {
+	local EXIT="$?" # Keep this first!
+	PS1=""
+
+	local BLUE='\[\033[0;34m\]'
+	local BLUE_BOLD='\[\033[01;34m\]'
+	local GREEN='\[\033[0;32m\]'
+	local ORANGE='\[\033[0;33m\]'
+	local RED='\[\033[0;31m\]'
+	local WHITE='\[\033[00m\]'
+
+	PS1_GITBRANCH=${WHITE}'$(r=$?; __git_ps1 "(%s)"; exit $r)'
+	PS1_PWD="${BLUE_BOLD}\w"
+	PS1_DELIMITER=${WHITE}|
+	PS1_TIMESTAMP="${BLUE}\T"
+	PS1_ERRORMARK=`if [[ $EXIT -eq 0 ]]; then echo "${GREEN}[✓]"; else echo "${RED}[✘ $EXIT]"; fi`
+	PS1_HISTORY="${ORANGE}[\!]"
+	PS1_LAMBDA=${WHITE}λ
+	PS1="$PS1_GITBRANCH $PS1_PWD $PS1_DELIMITER $PS1_TIMESTAMP $PS1_ERRORMARK\n$PS1_HISTORY $PS1_LAMBDA "
+}
 
 # upto, from unix.stackexchange
 upto ()
