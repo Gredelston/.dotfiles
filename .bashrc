@@ -65,8 +65,8 @@ __prompt_command() {
 
 	PS1_GITBRANCH=${WHITE}'$(r=$?; __git_ps1 "(%s)"; exit $r)'
 	PS1_PWD="${BLUE_BOLD}\w"
-	PS1_DELIMITER=${WHITE}|
-	PS1_TIMESTAMP="${BLUE}\T"
+	PS1_DELIMITER="${WHITE}|"
+	PS1_TIMESTAMP="${BLUE}\t"
 	PS1_ERRORMARK=`if [[ $EXIT -eq 0 ]]; then echo "${GREEN}[✓]"; else echo "${RED}[✘ $EXIT]"; fi`
 	PS1_HISTORY="${ORANGE}[\!]"
 	PS1_LAMBDA=${WHITE}λ
