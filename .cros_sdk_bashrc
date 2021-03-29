@@ -30,14 +30,15 @@ alias gcan="git commit --amend --no-edit"
 alias gups="git branch --set-upstream-to m/master"
 
 # Find a repo
-REPO_ROOT="$HOME/trunk"
+TRUNK="$HOME/trunk"
 find_repo() {
-	echo $REPO_ROOT/$(grep -Rn $1 $REPO_ROOT/.repo/manifests/full.xml $REPO_ROOT/.repo/manifests/internal_full.xml | grep path | sed -E 's/.*path=\"([^"]+)\"/\1/')
+	echo ${TRUNK}/$(grep -Rn $1 ${TRUNK}/manifest-internal/full.xml ${TRUNK}/manifest-internal/internal_full.xml | grep path | sed -E 's/.*path=\"([^"]+)\"/\1/')
 }
 goto_repo() {
-	if [[ $1 =~ ^\.?(dotfiles|df)$ ]]
-	then
+	if [[ $1 =~ ^\.?(dotfiles|df)$ ]]; then
 		cd $HOME/.dotfiles
+	elif [[ $1 =~ ^wk(spc)?$ ]]; then
+		cd $HOME/wkspc
 	else
 		cd $(find_repo $1)
 	fi

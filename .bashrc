@@ -5,15 +5,32 @@ export FZF_DEFAULT_OPTS='--multi --height=30%'
 export BROWSER=w3m
 alias ls="ls -B --color"
 alias netflix='firefox www.netflix.com'
+alias chromiumgo='cd ${HOME}/chromiumos; cros_sdk --no-ns-pid --enter'
 
 # Path
 export PATH=${PATH}:${HOME}/scripts
 export PATH=${PATH}:${HOME}/.local/bin
 export PATH=${PATH}:/usr/local/go/bin
 
+# Host-specific paths
+if [[ $(hostname) == "gregs-cool-workstation*" ]]; then
+        export TMUX_CMD="tmx2"
+elif [[ $(hostname) == "gregs-cool-solus*" ]]; then
+	export JAVAHOME=/usr/lib/openjdk-11/bin
+	export PATH=${PATH}:${JAVAHOME}
+else
+    export TMUX_CMD="tmux"
+fi
+
 # Logging
 greglog () {
   echo -e "\e[1m\e[36m\e[47mGE> \e[0m\e[36m\e[47m$@\e[0m"
+  return
+}
+
+# Grep for unique files
+filegrep () {
+  grep -rI $1 | awk -F':' ' { print $1 } ' | uniq
   return
 }
 
@@ -28,7 +45,8 @@ fzvi ()
   fi
   vi $file -p
 }
-alias tmux-zero='tmux switch -t 0 && exit'
+alias tmux-zero='${TMUX_CMD} switch -t 0 && exit'
+alias vip="vi -p"
 
 # PS1
 source ~/.dotfiles/.git-prompt.sh
@@ -214,3 +232,8 @@ lease_and_run() {
   skylab lease-dut $1
   run_skylab $1 $2
 }
+
+# Start tmux
+if [[ ! $TERM =~ screen ]]; then
+     exec tmux
+fi
