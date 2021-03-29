@@ -9,6 +9,7 @@ alias chromiumgo='cd ${HOME}/chromiumos; cros_sdk --no-ns-pid --enter'
 
 # Path
 export PATH=${PATH}:${HOME}/scripts
+export PATH=${PATH}:${HOME}/bin
 export PATH=${PATH}:${HOME}/.local/bin
 export PATH=${PATH}:/usr/local/go/bin
 
