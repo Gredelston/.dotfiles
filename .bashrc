@@ -238,3 +238,5 @@ lease_and_run() {
 if [[ ! $TERM =~ screen ]]; then
      exec tmux
 fi
+
+. ${HOME}/.dotfiles/.aerial-tramway
