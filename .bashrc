@@ -49,6 +49,11 @@ fzvi ()
 alias tmux-zero='${TMUX_CMD} switch -t 0 && exit'
 alias vip="vi -p"
 
+# Utility function: are we in chroot?
+in_chroot() {
+	test -e /etc/cros_chroot_version
+}
+
 # PS1
 source ~/.dotfiles/.git-prompt.sh
 PROMPT_COMMAND=__prompt_command # Generate PS1 after commands
@@ -71,6 +76,9 @@ __prompt_command() {
 	PS1_HISTORY="${ORANGE}[\!]"
 	PS1_LAMBDA=${WHITE}λ
 	PS1="$PS1_GITBRANCH $PS1_PWD $PS1_DELIMITER $PS1_TIMESTAMP $PS1_ERRORMARK\n$PS1_HISTORY $PS1_LAMBDA "
+	if in_chroot; then
+		PS1="(cr) $PS1"
+	fi
 }
 
 # upto, from unix.stackexchange
