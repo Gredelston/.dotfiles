@@ -25,8 +25,6 @@ alias tast_test_go="~/trunk/src/platform/tast/fast_build.sh -t"
 # Repo/Git 
 alias rs="repo sync -j64"
 alias ru.="repo upload --cbr ."
-alias gca="git commit --amend"
-alias gcan="git commit --amend --no-edit"
 alias gups="git branch --set-upstream-to m/master"
 
 # Find a repo

@@ -37,7 +37,18 @@ filegrep () {
 
 # Aliases
 alias ..="cd .."
-alias g='git'
+alias g="git"
+alias ga.="git add ."
+alias gca="git commit --amend"
+alias gcan="git commit --amend --no-edit"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias gdh="git diff HEAD^"
+alias gs="git status"
+alias tmux-zero='${TMUX_CMD} switch -t 0 && exit'
+alias vip="vi -p"
+
+# fzvi opens file(s) selected via fzf in vi
 fzvi ()
 {
   local file=$(fzf)
@@ -46,8 +57,6 @@ fzvi ()
   fi
   vi $file -p
 }
-alias tmux-zero='${TMUX_CMD} switch -t 0 && exit'
-alias vip="vi -p"
 
 # Utility function: are we in chroot?
 in_chroot() {
