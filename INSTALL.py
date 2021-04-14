@@ -27,13 +27,14 @@ DF_VIMRC = os.path.join(DF, VIMRC)
 
 def parse_args(argv):
     parser = argparse.ArgumentParser()
-    parser.add_argument("--cros_sdk",
-                        help="Apply CrOS SDK-specific changes",
-                        action="store_true")
     parser.add_argument("--pretend",
                         help="Don't actually change anything",
                         action="store_true")
     return parser.parse_args(argv)
+
+
+def _in_chroot():
+    return os.path.isfile('/etc/cros_chroot_version')
 
 
 class FSInterface(object):
@@ -67,13 +68,13 @@ class FSInterface(object):
         os.link(target, link_name)
 
 
-def setup_bashrc(fsi, cros_sdk=False):
+def setup_bashrc(fsi):
     logging.info('Sourcing %s in %s', DF_BASHRC, HOME_BASHRC)
     lines = ['',
              '# Import my standard .bashrc',
              'export DF="%s"' % DF,
              'source %s' % DF_BASHRC]
-    if cros_sdk:
+    if _in_chroot():
         logging.info('Also sourcing %s in %s', DF_CROS_SDK_BASHRC, HOME_BASHRC)
         lines.extend(['',
                       '# Import my cros_sdk .bashrc',
@@ -107,7 +108,7 @@ def main(argv):
     logging.basicConfig(level=logging.INFO)
     args = parse_args(argv)
     fsi = FSInterface(args.pretend)
-    setup_bashrc(fsi, args.cros_sdk)
+    setup_bashrc(fsi)
     setup_gitconfig(fsi)
     setup_tmux(fsi)
     setup_vimrc(fsi)
