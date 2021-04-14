@@ -45,6 +45,7 @@ alias gd="git diff"
 alias gdc="git diff --cached"
 alias gdh="git diff HEAD^"
 alias gs="git status"
+alias resource=". ${HOME}/.bashrc"
 alias tmux-zero='${TMUX_CMD} switch -t 0 && exit'
 alias vip="vi -p"
 
