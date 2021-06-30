@@ -75,3 +75,7 @@ function! XTermPasteBegin()
   set paste
   return ""
 endfunction
+
+" Allow local .vimrc files
+set exrc
+set secure
