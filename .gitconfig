@@ -3,4 +3,5 @@
 [branch]
     sort = -committerdate
 [includeIf "gitdir:~/.dotfiles/"]
-    email = gredelston@gmail.com
+    [user]
+        email = gredelston@gmail.com
