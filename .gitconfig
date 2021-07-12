@@ -1,2 +1,6 @@
 [pager]
-	branch = cat
+    branch = cat
+[branch]
+    sort = -committerdate
+[includeIf "gitdir:~/.dotfiles/"]
+    email = gredelston@gmail.com
