@@ -13,12 +13,13 @@ export PATH=${PATH}:${HOME}/bin
 export PATH=${PATH}:${HOME}/.local/bin
 export PATH=${PATH}:/usr/local/go/bin
 
-# Host-specific paths
-if [[ $(hostname) == "gregs-cool-workstation*" ]]; then
-        export TMUX_CMD="tmx2"
-elif [[ $(hostname) == "gregs-cool-solus*" ]]; then
-	export JAVAHOME=/usr/lib/openjdk-11/bin
-	export PATH=${PATH}:${JAVAHOME}
+# Host-specific info
+if [[ $(hostname) =~ "gregs-cool-workstation" ]]; then
+    export TMUX_CMD="tmx2"
+    alias gogo='cd ${HOME}/chrome_infra/infra/go && eval `./env.py` && cd src/infra/cros'
+elif [[ $(hostname) =~ "gregs-cool-solus" ]]; then
+    export JAVAHOME=/usr/lib/openjdk-11/bin
+    export PATH=${PATH}:${JAVAHOME}
 else
     export TMUX_CMD="tmux"
 fi
