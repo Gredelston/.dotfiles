@@ -2,6 +2,3 @@
     branch = cat
 [branch]
     sort = -committerdate
-[includeIf "gitdir:~/.dotfiles/"]
-    [user]
-        email = gredelston@gmail.com
