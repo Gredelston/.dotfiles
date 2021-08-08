@@ -8,6 +8,13 @@ nnoremap : ;
 
 """ Begin Vim-Plug section
 
+" Install vimplug if not already installed
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 " Specify a ddirectory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
@@ -17,6 +24,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-fugitive'
+Plug 'puremourning/vimspector'
 
 " orgmode and its dependencies
 Plug 'jceb/vim-orgmode'
@@ -57,3 +65,17 @@ nnoremap <C-l> :wincmd l<CR>
 nnoremap Q @@
 set lazyredraw
 nnoremap Y y$
+
+" Fix indents when pasting, from https://stackoverflow.com/q/2514445#38258720
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
+" Allow local .vimrc files
+set exrc
+set secure

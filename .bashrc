@@ -6,16 +6,23 @@ export BROWSER=w3m
 export GOPATH=${HOME}/go
 alias ls="ls -B --color"
 alias netflix='firefox www.netflix.com'
+alias chromiumgo='cd ${HOME}/chromiumos; cros_sdk --no-ns-pid --enter'
 
 # Path
 export PATH=${PATH}:${HOME}/scripts
+export PATH=${PATH}:${HOME}/bin
 export PATH=${PATH}:${HOME}/.local/bin
 export PATH=${PATH}:/usr/local/go/bin
 
-# Host-specific paths
-if [[ $HOSTNAME -eq "gregs-cool-solus" ]]; then
-	export JAVAHOME=/usr/lib/openjdk-11/bin
-	export PATH=${PATH}:${JAVAHOME}
+# Host-specific info
+if [[ $(hostname) =~ "gregs-cool-workstation" ]]; then
+    export TMUX_CMD="tmx2"
+    alias gogo='cd ${HOME}/chrome_infra/infra/go && eval `./env.py` && cd src/infra/cros'
+elif [[ $(hostname) =~ "gregs-cool-solus" ]]; then
+    export JAVAHOME=/usr/lib/openjdk-11/bin
+    export PATH=${PATH}:${JAVAHOME}
+else
+    export TMUX_CMD="tmux"
 fi
 
 # Logging
@@ -32,7 +39,19 @@ filegrep () {
 
 # Aliases
 alias ..="cd .."
-alias g='git'
+alias g="git"
+alias ga.="git add ."
+alias gca="git commit --amend"
+alias gcan="git commit --amend --no-edit"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias gdh="git diff HEAD^"
+alias gs="git status"
+alias resource=". ${HOME}/.bashrc"
+alias tmux-zero='${TMUX_CMD} switch -t 0 && exit'
+alias vip="vi -p"
+
+# fzvi opens file(s) selected via fzf in vi
 fzvi ()
 {
   local file=$(fzf)
@@ -41,19 +60,38 @@ fzvi ()
   fi
   vi $file -p
 }
-alias tmux-zero='tmux switch -t 0 && exit'
+
+# Utility function: are we in chroot?
+in_chroot() {
+	test -e /etc/cros_chroot_version
+}
 
 # PS1
 source ~/.dotfiles/.git-prompt.sh
-PS1_GITBRANCH='\[\033[00m\]$(r=$?; __git_ps1 "(%s)"; exit $r)'
-PS1_PWD='\[\033[01;34m\]\w'
-PS1_DELIMITER='\[\033[00m\]|'
-PS1_TIMESTAMP='\[\033[0;34m\]`/bin/date +"%a %D %-I:%M:%S %p"`'
-PS1_ERRORMARK='`if [[ $ERROR_STATUS -eq "0" ]]; then echo "\[\033[0;32m\][✓]"; else echo "\[\033[0;31m\][✘]"; fi`'
-PS1_HISTORY='\[\033[0;33m\][\!]'
-PS1_LAMBDA='\[\033[00m\]λ'
-export PROMPT_COMMAND=$(ERROR_STATUS="$?")
-export PS1="$PS1_GITBRANCH $PS1_PWD $PS1_DELIMITER $PS1_TIMESTAMP $PS1_ERRORMARK\n$PS1_HISTORY $PS1_LAMBDA "
+PROMPT_COMMAND=__prompt_command # Generate PS1 after commands
+__prompt_command() {
+	local EXIT="$?" # Keep this first!
+	PS1=""
+
+	local BLUE='\[\033[0;34m\]'
+	local BLUE_BOLD='\[\033[01;34m\]'
+	local GREEN='\[\033[0;32m\]'
+	local ORANGE='\[\033[0;33m\]'
+	local RED='\[\033[0;31m\]'
+	local WHITE='\[\033[00m\]'
+
+	PS1_GITBRANCH=${WHITE}'$(r=$?; __git_ps1 "(%s)"; exit $r)'
+	PS1_PWD="${BLUE_BOLD}\w"
+	PS1_DELIMITER="${WHITE}|"
+	PS1_TIMESTAMP="${BLUE}\t"
+	PS1_ERRORMARK=`if [[ $EXIT -eq 0 ]]; then echo "${GREEN}[✓]"; else echo "${RED}[✘ $EXIT]"; fi`
+	PS1_HISTORY="${ORANGE}[\!]"
+	PS1_LAMBDA=${WHITE}λ
+	PS1="$PS1_GITBRANCH $PS1_PWD $PS1_DELIMITER $PS1_TIMESTAMP $PS1_ERRORMARK\n$PS1_HISTORY $PS1_LAMBDA "
+	if in_chroot; then
+		PS1="(cr) $PS1"
+	fi
+}
 
 # upto, from unix.stackexchange
 upto ()
@@ -218,5 +256,7 @@ lease_and_run() {
 
 # Start tmux
 if [[ ! $TERM =~ screen ]]; then
-	    exec tmux
+     exec tmux
 fi
+
+. ${HOME}/.dotfiles/.aerial-tramway
