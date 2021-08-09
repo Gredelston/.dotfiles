@@ -19,6 +19,7 @@ if [[ $(hostname) =~ "gregs-cool-workstation" ]]; then
     export TMUX_CMD="tmx2"
     export SWARMING_SERVER="chromeos-swarming.appspot.com"
     alias gogo='cd ${HOME}/chrome_infra/infra/go && eval `./env.py` && cd src/infra/cros'
+    alias gorecipes='cd ${HOME}/chromiumos/infra/recipes'
 elif [[ $(hostname) =~ "gregs-cool-solus" ]]; then
     export JAVAHOME=/usr/lib/openjdk-11/bin
     export PATH=${PATH}:${JAVAHOME}

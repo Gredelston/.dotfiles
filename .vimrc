@@ -1,5 +1,6 @@
 syntax on
 filetype indent plugin on
+set encoding=UTF-8
 
 " Remaps!
 inoremap jk <ESC>
