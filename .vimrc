@@ -25,6 +25,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-fugitive'
 Plug 'puremourning/vimspector'
+Plug 'jiangmiao/auto-pairs'
 
 " orgmode and its dependencies
 Plug 'jceb/vim-orgmode'
