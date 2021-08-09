@@ -257,7 +257,9 @@ lease_and_run() {
 }
 
 # Start tmux
-if [[ ! $TERM =~ screen ]]; then
+if [ -z $TMUX ] ; then
+     echo $TERM
+     echo $TMUX
      exec tmux
 fi
 
