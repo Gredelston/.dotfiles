@@ -8,11 +8,13 @@ import sys
 
 BASHRC = '.bashrc'
 GITCONFIG = '.gitconfig'
+INITVIM = 'init.vim'
 TMUX_CONF = '.tmux.conf'
 VIMRC = '.vimrc'
 
 HOME = os.environ['HOME']
 HOME_BASHRC = os.path.join(HOME, BASHRC)
+HOME_INITVIM = os.path.join(HOME, '.config', 'nvim', INITVIM)
 HOME_GITCONFIG = os.path.join(HOME, GITCONFIG)
 HOME_TMUX_CONF = os.path.join(HOME, TMUX_CONF)
 HOME_VIMRC = os.path.join(HOME, VIMRC)
@@ -20,6 +22,7 @@ HOME_VIMRC = os.path.join(HOME, VIMRC)
 DF = os.path.join(HOME, '.dotfiles')
 DF_BASHRC = os.path.join(DF, BASHRC)
 DF_CROS_SDK_BASHRC = os.path.join(DF, '.cros_sdk_bashrc')
+DF_INITVIM = os.path.join(DF, INITVIM)
 DF_GITCONFIG = os.path.join(DF, GITCONFIG)
 DF_TMUX_CONF = os.path.join(DF, TMUX_CONF)
 DF_VIMRC = os.path.join(DF, VIMRC)
@@ -67,8 +70,21 @@ class FSInterface(object):
         logging.info('Creating link to %s at %s', target, link_name)
         os.link(target, link_name)
 
+    def ensure_dir_exists(self, dirname):
+        """If the dir does not exist, create it."""
+        if not os.path.exists(dirname):
+            return self.mkdir(dirname)
+
+    def mkdir(self, dirname, mode=0o777):
+        """Create a directory, recursively."""
+        if self.pretend:
+            logging.info('PRETEND: Create directory(s): %s', dirname)
+            return
+        os.mkdirs(dirname, mode)
+
 
 def setup_bashrc(fsi):
+    """Setup .bashrc, the config file for Bash"""
     logging.info('Sourcing %s in %s', DF_BASHRC, HOME_BASHRC)
     lines = ['',
              '# Import my standard .bashrc',
@@ -83,6 +99,7 @@ def setup_bashrc(fsi):
 
 
 def setup_gitconfig(fsi):
+    """Setup .gitconfig, the config file for Git"""
     logging.info('Including %s in %s', DF_GITCONFIG, HOME_GITCONFIG)
     lines = ['[include]',
              '\tpath = %s' % DF_GITCONFIG]
@@ -90,6 +107,7 @@ def setup_gitconfig(fsi):
 
 
 def setup_tmux(fsi):
+    """Setup .tmux.conf, the config file for Tmux"""
     if os.path.isfile(HOME_TMUX_CONF):
         logging.warning('%s exists. Not linking %s.', HOME_TMUX_CONF, TMUX_CONF)
         return
@@ -97,11 +115,22 @@ def setup_tmux(fsi):
 
 
 def setup_vimrc(fsi):
+    """Setup .vimrc, the config file for vi/vim"""
     if os.path.isfile(HOME_VIMRC):
         logging.warning('%s exists. Appending "source %s".', HOME_VIMRC, DF_VIMRC)
         fsi.append_to_file(HOME_VIMRC, ['source %s' % DF_VIMRC])
     else:
         fsi.create_link(DF_VIMRC, HOME_VIMRC)
+
+def setup_initvim(fsi):
+    """Setup init.vim, the config file for Neovim"""
+    fsi.ensure_dir_exists(os.path.dirname(HOME_INITVIM))
+    if os.path.isfile(HOME_INITVIM):
+        logging.warning('%s exists. Appending "source %s".', HOME_INITVIM,
+                DF_INITVIM)
+        fsi.append_to_file(HOME_INITVIM, ['source %s' % DF_INITVIM])
+    else:
+        fsi.create_link(DF_INITVIM, HOME_INITVIM)
 
 
 def main(argv):
@@ -112,6 +141,7 @@ def main(argv):
     setup_gitconfig(fsi)
     setup_tmux(fsi)
     setup_vimrc(fsi)
+    setup_initvim(fsi)
 
 
 if __name__ == '__main__':

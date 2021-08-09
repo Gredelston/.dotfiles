@@ -25,6 +25,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-fugitive'
 Plug 'puremourning/vimspector'
+Plug 'jiangmiao/auto-pairs'
+Plug 'vim-airline/vim-airline'
+Plug 'airblade/vim-gitgutter'
 
 " orgmode and its dependencies
 Plug 'jceb/vim-orgmode'
@@ -75,3 +78,7 @@ function! XTermPasteBegin()
   set paste
   return ""
 endfunction
+
+" Allow local .vimrc files
+set exrc
+set secure
