@@ -258,8 +258,6 @@ lease_and_run() {
 
 # Start tmux
 if [ -z $TMUX ] ; then
-     echo $TERM
-     echo $TMUX
      exec tmux
 fi
 
