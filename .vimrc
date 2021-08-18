@@ -80,6 +80,9 @@ function! XTermPasteBegin()
   return ""
 endfunction
 
+" Syntax highlighting for strange extensions
+autocmd BufNewFile,BufRead *.star set syntax=python
+
 " Allow local .vimrc files
 set exrc
 set secure
