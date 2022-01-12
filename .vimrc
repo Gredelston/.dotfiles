@@ -7,6 +7,11 @@ inoremap jk <ESC>
 nnoremap ; :
 nnoremap : ;
 
+set number
+
+" Syntax highlighting for weird extensions
+autocmd BufNewFile,BufRead *.star set ft=starlark syntax=python shiftwidth=2 tabstop=2 softtabstop=2
+
 """ Begin Vim-Plug section
 
 " Install vimplug if not already installed
@@ -80,6 +85,5 @@ function! XTermPasteBegin()
   return ""
 endfunction
 
-" Allow local .vimrc files
-set exrc
-set secure
+" Set custom shiftwidths in certain directories.
+autocmd BufRead,BufNewFile */chromite/*.py,*/infra/recipes/*.py,*/infra/config/*.py set shiftwidth=2 tabstop=2 softtabstop=2
