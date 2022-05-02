@@ -80,7 +80,7 @@ class FSInterface(object):
         if self.pretend:
             logging.info('PRETEND: Create directory(s): %s', dirname)
             return
-        os.mkdirs(dirname, mode)
+        os.makedirs(dirname, mode)
 
 
 def setup_bashrc(fsi):

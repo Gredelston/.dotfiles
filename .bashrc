@@ -23,6 +23,7 @@ if [[ $(hostname) =~ "gregs-cool-workstation" ]]; then
 elif [[ $(hostname) =~ "gregs-cool-solus" ]]; then
     export JAVAHOME=/usr/lib/openjdk-11/bin
     export PATH=${PATH}:${JAVAHOME}
+    alias android-studio=/usr/local/android-studio/bin/studio.sh
 else
     export TMUX_CMD="tmux"
 fi
