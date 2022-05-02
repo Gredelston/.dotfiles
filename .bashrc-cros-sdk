@@ -22,30 +22,8 @@ alias test_faft="faft firmware_FAFTSetup"
 alias runservo="sudo servod --board=$BOARD"
 alias tast_test_go="~/trunk/src/platform/tast/fast_build.sh -t"
 
-# Repo/Git 
-alias rs="repo sync -j64"
-alias ru.="repo upload --cbr ."
-alias gups="git branch --set-upstream-to m/master"
-
-# Find a repo
+# Paths
 TRUNK="$HOME/trunk"
-find_repo() {
-	echo ${TRUNK}/$(grep -Rn $1 ${TRUNK}/manifest-internal/full.xml ${TRUNK}/manifest-internal/internal_full.xml | grep path | sed -E 's/.*path=\"([^"]+)\"/\1/') | cut -d " " -f1
-}
-goto_repo() {
-	if [[ $1 =~ ^\.?(dotfiles|df)$ ]]; then
-		cd $HOME/.dotfiles
-	elif [[ $1 =~ ^wk(spc)?$ ]]; then
-		cd $HOME/wkspc
-	else
-		cd $(find_repo $1)
-	fi
-}
-alias goto="goto_repo"
-
-# Text-based adventures will be the end of me
-alias runto="goto"
-alias where="pwd"
 
 # Fix that command prompt
 export PS1="(cr) $PS1"

@@ -18,9 +18,6 @@ export PATH=${PATH}:/usr/local/go/bin
 # Host-specific info
 if [[ $(hostname) =~ "gregs-cool-workstation" ]]; then
     . ${DOTFILES}/.bashrc-google-workstation
-    if [ -f "/etc/cros_chroot_version" ]; then
-	    . ${DOTFILES}/.bashrc-cros-sdk
-    fi
 elif [[ $(hostname) =~ "gregs-cool-solus" ]]; then
     . ${DOTFILES}/.bashrc-solus
 else
