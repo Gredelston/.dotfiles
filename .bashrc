@@ -4,6 +4,7 @@ export EDITOR=vi
 export FZF_DEFAULT_OPTS='--multi --height=30%'
 export BROWSER=w3m
 export GOPATH=${HOME}/go
+export DOTFILES=${HOME}/.dotfiles
 alias ls="ls -B --color"
 alias netflix='firefox www.netflix.com'
 alias chromiumgo='cd ${HOME}/chromiumos; cros_sdk --no-ns-pid --enter'
@@ -16,14 +17,12 @@ export PATH=${PATH}:/usr/local/go/bin
 
 # Host-specific info
 if [[ $(hostname) =~ "gregs-cool-workstation" ]]; then
-    export TMUX_CMD="tmx2"
-    export SWARMING_SERVER="chromeos-swarming.appspot.com"
-    alias gogo='cd ${HOME}/chops_infra/infra/go && eval `./env.py` && cd src/infra/cros'
-    alias gorecipes='cd ${HOME}/chromiumos/infra/recipes'
+    . ${DOTFILES}/.bashrc-google-workstation
+    if [ -f "/etc/cros_chroot_version" ]; then
+	    . ${DOTFILES}/.bashrc-cros-sdk
+    fi
 elif [[ $(hostname) =~ "gregs-cool-solus" ]]; then
-    export JAVAHOME=/usr/lib/openjdk-11/bin
-    export PATH=${PATH}:${JAVAHOME}
-    alias android-studio=/usr/local/android-studio/bin/studio.sh
+    . ${DOTFILES}/.bashrc-solus
 else
     export TMUX_CMD="tmux"
 fi
@@ -262,4 +261,4 @@ if [ -z $TMUX ]; then
      exec tmux
 fi
 
-. ${HOME}/.dotfiles/.aerial-tramway
+. ${DOTFILES}/.aerial-tramway
