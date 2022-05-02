@@ -9,6 +9,9 @@ nnoremap : ;
 
 set number
 
+" Syntax highlighting for weird extensions
+autocmd BufNewFile,BufRead *.star set ft=starlark syntax=python shiftwidth=2 tabstop=2 softtabstop=2
+
 """ Begin Vim-Plug section
 
 " Install vimplug if not already installed
@@ -27,7 +30,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-fugitive'
-Plug 'puremourning/vimspector'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
@@ -88,3 +90,6 @@ autocmd BufNewFile,BufRead *.star set syntax=python
 " Allow local .vimrc files
 set exrc
 set secure
+
+" Set custom shiftwidths in certain directories.
+autocmd BufRead,BufNewFile */chromite/*.py,*/infra/recipes/*.py,*/infra/config/*.py set shiftwidth=2 tabstop=2 softtabstop=2
