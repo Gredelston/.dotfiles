@@ -7,6 +7,8 @@ inoremap jk <ESC>
 nnoremap ; :
 nnoremap : ;
 
+set number
+
 """ Begin Vim-Plug section
 
 " Install vimplug if not already installed
