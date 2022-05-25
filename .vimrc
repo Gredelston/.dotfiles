@@ -69,6 +69,9 @@ nnoremap <C-j> :wincmd j<CR>
 nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
 
+" Git blame
+nnoremap <C-b> :Git blame<CR>
+
 " Macro tricks, from https://hillelwayne.com/vim-macro-trickz/
 nnoremap Q @@
 set lazyredraw
