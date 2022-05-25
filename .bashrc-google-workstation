@@ -31,6 +31,10 @@ goto_repo() {
 }
 alias goto="goto_repo"
 
+nvim-recipe-module() {
+    nvim -p term://bash recipe_modules/$1/*.py recipe_modules/$1/*/*.py
+}
+
 # Text-based adventure commands, lol
 alias runto="goto"
 alias where="pwd"
