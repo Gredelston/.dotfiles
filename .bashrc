@@ -253,6 +253,33 @@ lease_and_run() {
   run_skylab $1 $2
 }
 
+# FZF fun:
+fzf_git_diff() {
+    git diff --name-status "${@:-HEAD^}" | \
+    fzf --ansi --no-sort \
+        --preview "echo {} | cut -f2- | xargs -I@ sh -c 'git show --color=always --oneline @'"
+}
+
+alias gdiff='fzf_git_diff'
+
+
+fzf_git_log_pickaxe() {
+     if [[ $# == 0 ]]; then
+         echo 'Error: search term was not provided.'
+         return
+     fi
+     local selections=$(
+       git log --oneline --color=always -S "$@" |
+         fzf --ansi --no-sort --no-height \
+             --preview "git show --color=always {1}"
+       )
+     if [[ -n $selections ]]; then
+         local commits=$(echo "$selections" | cut -d' ' -f1 | tr '\n' ' ')
+         git show $commits
+     fi
+}
+alias glS='fzf_git_log_pickaxe'
+
 # Start tmux
 if [ -z $TMUX ]; then
      exec tmux
