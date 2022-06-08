@@ -13,26 +13,34 @@ TRUNK=$HOME/chromiumos
 
 # Chroot overrides
 if [ -f "/etc/cros_chroot_version" ]; then
-        . ${DOTFILES}/.bashrc-cros-sdk
+    . ${DOTFILES}/.bashrc-cros-sdk
 fi
 
 # Find a repo
 find_repo() {
-	echo ${TRUNK}/$(grep -Rn $1 ${TRUNK}/manifest-internal/full.xml ${TRUNK}/manifest-internal/internal_full.xml | grep path | sed -E 's/.*path=\"([^"]+)\"/\1/') | cut -d " " -f1
+    echo ${TRUNK}/$(grep -Rn $1 ${TRUNK}/manifest-internal/full.xml ${TRUNK}/manifest-internal/internal_full.xml | grep path | sed -E 's/.*path=\"([^"]+)\"/\1/') | cut -d " " -f1
 }
 goto_repo() {
-	if [[ $1 =~ ^\.?(dotfiles|df)$ ]]; then
-		cd $HOME/.dotfiles
-	elif [[ $1 =~ ^wk(spc)?$ ]]; then
-		cd $HOME/wkspc
-	else
-		cd $(find_repo $1)
-	fi
+    if [[ $1 =~ ^\.?(dotfiles|df)$ ]]; then
+        cd $HOME/.dotfiles
+    elif [[ $1 =~ ^wk(spc)?$ ]]; then
+        cd $HOME/wkspc
+    else
+        cd $(find_repo $1)
+    fi
 }
 alias goto="goto_repo"
 
 nvim-recipe-module() {
     nvim -p term://bash recipe_modules/$1/*.py recipe_modules/$1/*/*.py
+}
+
+# Led aliases
+led_edit_launch() {
+    led get-build $1 | led edit-recipe-bundle | led launch
+}
+led_relaunch_with_py3() {
+    led get-build $1 | led edit -experiment luci.recipes.use_python3=true | led launch
 }
 
 # Text-based adventure commands, lol
