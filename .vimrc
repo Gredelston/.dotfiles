@@ -6,6 +6,7 @@ set encoding=UTF-8
 inoremap jk <ESC>
 nnoremap ; :
 nnoremap : ;
+tnoremap <Esc> <C-\><C-n>
 
 set number
 
