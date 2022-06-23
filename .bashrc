@@ -148,4 +148,12 @@ if [ -z $TMUX ]; then
      exec tmux
 fi
 
+# Vim aliases
+alias nvim-term='nvim -p term://bash'
+
+# Grep aliases
+alias rg-py="rg -g '**.py' -g '!**_pb2.py'"
+alias rg-py-nou="rg-py -g '!**_unittest.py'"
+alias rg-star="rg -g '**.star'"
+
 . ${DOTFILES}/.aerial-tramway
