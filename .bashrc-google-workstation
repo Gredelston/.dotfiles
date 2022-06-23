@@ -6,6 +6,7 @@ alias gorecipes='cd ${HOME}/chromiumos/infra/recipes'
 # Repo/Git 
 alias rs="repo sync -j64"
 alias ru.="repo upload --cbr ."
+alias ruy="repo upload --cbr . --y"
 alias gups="git branch --set-upstream-to m/master"
 
 # Paths
