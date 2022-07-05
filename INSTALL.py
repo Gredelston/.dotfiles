@@ -4,6 +4,7 @@ import argparse
 import logging
 import os
 import sys
+from typing import List
 
 
 BASHRC = '.bashrc'
@@ -50,7 +51,7 @@ class FSInterface(object):
         if self.pretend:
             logging.info('PRETEND: Append these lines to %s:', filename)
             lines = [line.replace('\t', ' '*4) for line in lines]
-            longest = max([len(line) for line in lines])
+            longest = max([len(line) for line in lines] or [0])
             logging.info('-' * (longest + 4))
             for line in lines:
                 logging.info('| %s |', line.ljust(longest))
@@ -83,18 +84,27 @@ class FSInterface(object):
         os.makedirs(dirname, mode)
 
 
+def _file_contains_string(filepath: str, string: str):
+    with open(filepath) as f:
+        return string in ''.join(f.readlines())
+
+
 def setup_bashrc(fsi):
     """Setup .bashrc, the config file for Bash"""
     logging.info('Sourcing %s in %s', DF_BASHRC, HOME_BASHRC)
-    lines = ['',
-             '# Import my standard .bashrc',
-             'export DF="%s"' % DF,
-             'source %s' % DF_BASHRC]
+    bashrcs_to_source: List[str] = [DF_BASHRC]
     if _in_chroot():
-        logging.info('Also sourcing %s in %s', DF_CROS_SDK_BASHRC, HOME_BASHRC)
+        bashrcs_to_source.append(DF_CROS_SDK_BASHRC)
+        logging.info(f'Sourcing the following .bashrc files in {HOME_BASHRC}:')
+        logging.info(bashrcs_to_source)
+    lines = []
+    for bashrc_to_source in bashrcs_to_source:
+        if _file_contains_string(HOME_BASHRC, f'source {DF_BASHRC}'):
+            logging.info(f'{bashrc_to_source} already sourced. Skipping.')
+            continue
         lines.extend(['',
-                      '# Import my cros_sdk .bashrc',
-                      'source %s', DF_CROS_SDK_BASHRC])
+                 '# Import my standard .bashrc',
+                 'source %s' % DF_BASHRC])
     fsi.append_to_file(HOME_BASHRC, lines)
 
 
