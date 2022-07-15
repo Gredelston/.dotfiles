@@ -4,6 +4,7 @@ import argparse
 import logging
 import os
 import sys
+from typing import List
 
 
 BASHRC = '.bashrc'
@@ -28,7 +29,7 @@ DF_TMUX_CONF = os.path.join(DF, TMUX_CONF)
 DF_VIMRC = os.path.join(DF, VIMRC)
 
 
-def parse_args(argv):
+def parse_args(argv: List[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--pretend",
                         help="Don't actually change anything",
@@ -36,21 +37,21 @@ def parse_args(argv):
     return parser.parse_args(argv)
 
 
-def _in_chroot():
+def _in_chroot() -> bool:
     return os.path.isfile('/etc/cros_chroot_version')
 
 
-class FSInterface(object):
+class FSInterface():
     """Class to interact with the filesystem."""
-    def __init__(self, pretend=False):
+    def __init__(self, pretend: bool=False):
         self.pretend = pretend
 
-    def append_to_file(self, filename, lines):
+    def append_to_file(self, filename: str, lines: List[str]):
         assert type(lines) is list
         if self.pretend:
             logging.info('PRETEND: Append these lines to %s:', filename)
             lines = [line.replace('\t', ' '*4) for line in lines]
-            longest = max([len(line) for line in lines])
+            longest = max([len(line) for line in lines] or [0])
             logging.info('-' * (longest + 4))
             for line in lines:
                 logging.info('| %s |', line.ljust(longest))
@@ -62,7 +63,7 @@ class FSInterface(object):
                 f.write('\n')
                 f.write(line)
 
-    def create_link(self, target, link_name):
+    def create_link(self, target: str, link_name: str):
         assert os.path.isfile(target)
         if self.pretend:
             logging.info('PRETEND: Create link to %s at %s', target, link_name)
@@ -70,12 +71,12 @@ class FSInterface(object):
         logging.info('Creating link to %s at %s', target, link_name)
         os.link(target, link_name)
 
-    def ensure_dir_exists(self, dirname):
+    def ensure_dir_exists(self, dirname: str):
         """If the dir does not exist, create it."""
         if not os.path.exists(dirname):
-            return self.mkdir(dirname)
+            self.mkdir(dirname)
 
-    def mkdir(self, dirname, mode=0o777):
+    def mkdir(self, dirname: str, mode: int=0o777):
         """Create a directory, recursively."""
         if self.pretend:
             logging.info('PRETEND: Create directory(s): %s', dirname)
@@ -83,22 +84,31 @@ class FSInterface(object):
         os.makedirs(dirname, mode)
 
 
-def setup_bashrc(fsi):
+def _file_contains_string(filepath: str, string: str) -> bool:
+    with open(filepath) as f:
+        return string in ''.join(f.readlines())
+
+
+def setup_bashrc(fsi: FSInterface):
     """Setup .bashrc, the config file for Bash"""
     logging.info('Sourcing %s in %s', DF_BASHRC, HOME_BASHRC)
-    lines = ['',
-             '# Import my standard .bashrc',
-             'export DF="%s"' % DF,
-             'source %s' % DF_BASHRC]
+    bashrcs_to_source: List[str] = [DF_BASHRC]
     if _in_chroot():
-        logging.info('Also sourcing %s in %s', DF_CROS_SDK_BASHRC, HOME_BASHRC)
+        bashrcs_to_source.append(DF_CROS_SDK_BASHRC)
+        logging.info(f'Sourcing the following .bashrc files in {HOME_BASHRC}:')
+        logging.info(bashrcs_to_source)
+    lines = []
+    for bashrc_to_source in bashrcs_to_source:
+        if _file_contains_string(HOME_BASHRC, f'source {DF_BASHRC}'):
+            logging.info(f'{bashrc_to_source} already sourced. Skipping.')
+            continue
         lines.extend(['',
-                      '# Import my cros_sdk .bashrc',
-                      'source %s', DF_CROS_SDK_BASHRC])
+                 '# Import my standard .bashrc',
+                 'source %s' % DF_BASHRC])
     fsi.append_to_file(HOME_BASHRC, lines)
 
 
-def setup_gitconfig(fsi):
+def setup_gitconfig(fsi: FSInterface):
     """Setup .gitconfig, the config file for Git"""
     logging.info('Including %s in %s', DF_GITCONFIG, HOME_GITCONFIG)
     lines = ['[include]',
@@ -106,7 +116,7 @@ def setup_gitconfig(fsi):
     fsi.append_to_file(HOME_GITCONFIG, lines)
 
 
-def setup_tmux(fsi):
+def setup_tmux(fsi: FSInterface):
     """Setup .tmux.conf, the config file for Tmux"""
     if os.path.isfile(HOME_TMUX_CONF):
         logging.warning('%s exists. Not linking %s.', HOME_TMUX_CONF, TMUX_CONF)
@@ -114,7 +124,7 @@ def setup_tmux(fsi):
     fsi.create_link(DF_TMUX_CONF, HOME_TMUX_CONF)
 
 
-def setup_vimrc(fsi):
+def setup_vimrc(fsi: FSInterface):
     """Setup .vimrc, the config file for vi/vim"""
     if os.path.isfile(HOME_VIMRC):
         logging.warning('%s exists. Appending "source %s".', HOME_VIMRC, DF_VIMRC)
@@ -122,7 +132,7 @@ def setup_vimrc(fsi):
     else:
         fsi.create_link(DF_VIMRC, HOME_VIMRC)
 
-def setup_initvim(fsi):
+def setup_initvim(fsi: FSInterface):
     """Setup init.vim, the config file for Neovim"""
     fsi.ensure_dir_exists(os.path.dirname(HOME_INITVIM))
     if os.path.isfile(HOME_INITVIM):
@@ -133,7 +143,7 @@ def setup_initvim(fsi):
         fsi.create_link(DF_INITVIM, HOME_INITVIM)
 
 
-def main(argv):
+def main(argv: List[str]):
     logging.basicConfig(level=logging.INFO)
     args = parse_args(argv)
     fsi = FSInterface(args.pretend)

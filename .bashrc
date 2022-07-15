@@ -5,6 +5,7 @@ export FZF_DEFAULT_OPTS='--multi --height=30%'
 export BROWSER=w3m
 export GOPATH=${HOME}/go
 export DOTFILES=${HOME}/.dotfiles
+export DF=${DOTFILES}
 alias ls="ls -B --color"
 alias netflix='firefox www.netflix.com'
 alias chromiumgo='cd ${HOME}/chromiumos; cros_sdk --no-ns-pid --enter'
