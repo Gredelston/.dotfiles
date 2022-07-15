@@ -35,6 +35,7 @@ alias goto="goto_repo"
 nvim-recipe-module() {
     nvim -p term://bash recipe_modules/$1/*.py recipe_modules/$1/*/*.py
 }
+alias rg-recipes-real-code="rg -g '**.py' -g '!**/tests/**' -g '!**/examples/**'"
 
 # Led aliases
 led_edit_launch() {
