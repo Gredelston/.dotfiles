@@ -72,7 +72,7 @@ nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
 
 " Git blame
-nnoremap <C-b> :Git blame<CR>
+nnoremap <C-b> :Git blame --ignore-rev 1699fabc1e<CR>
 
 " Macro tricks, from https://hillelwayne.com/vim-macro-trickz/
 nnoremap Q @@
