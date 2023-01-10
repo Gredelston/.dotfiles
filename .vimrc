@@ -72,7 +72,8 @@ nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
 
 " Git blame
-nnoremap <C-b> :Git blame --ignore-rev 1699fabc1e<CR>
+nnoremap <C-b> :Git blame<CR>
+nnoremap <M-b> :Git blame --ignore-rev 1699fabc1e<CR>
 
 " Macro tricks, from https://hillelwayne.com/vim-macro-trickz/
 nnoremap Q @@
@@ -97,4 +98,4 @@ set exrc
 set secure
 
 " Set custom shiftwidths in certain directories.
-autocmd BufRead,BufNewFile */chromite/*.py,*/infra/recipes/*.py,*/infra/config/*.py set shiftwidth=2 tabstop=2 softtabstop=2
+autocmd BufRead,BufNewFile */infra/recipes/*.py,*/infra/config/*.py set shiftwidth=2 tabstop=2 softtabstop=2
