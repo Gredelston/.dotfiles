@@ -1,0 +1,7 @@
+This directory contains custom Neovim configs compatible with NvChad.
+It is intended to be soft-linked in ~/.config/nvim/lua/custom/:
+    ln -s ~/.dotfiles/nvchad-custom/ ~/.config/nvim/lua/custom/
+
+Links:
+* NvChad: https://github.com/NvChad/NvChad
+* Example config: https://github.com/NvChad/example_config
