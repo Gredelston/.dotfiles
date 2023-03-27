@@ -4,3 +4,5 @@ vim.api.nvim_create_autocmd(
     command = "set syntax=python",
   }
 )
+
+vim.opt.termguicolors = true
