@@ -6,6 +6,9 @@ local M = {}
 M.ui = {
   theme_toggle = { "chadracula", "dark_horizon"},
   theme = "dark_horizon",
+  nvdash = {
+    load_on_startup = true
+  }
 }
 
 M.mappings = require "custom.mappings"
