@@ -12,6 +12,7 @@ GITCONFIG = '.gitconfig'
 INITVIM = 'init.vim'
 TMUX_CONF = '.tmux.conf'
 VIMRC = '.vimrc'
+ZSHRC = '.zshrc'
 
 HOME = os.environ['HOME']
 HOME_BASHRC = os.path.join(HOME, BASHRC)
@@ -19,6 +20,7 @@ HOME_INITVIM = os.path.join(HOME, '.config', 'nvim', INITVIM)
 HOME_GITCONFIG = os.path.join(HOME, GITCONFIG)
 HOME_TMUX_CONF = os.path.join(HOME, TMUX_CONF)
 HOME_VIMRC = os.path.join(HOME, VIMRC)
+HOME_ZSHRC = os.path.join(HOME, ZSHRC)
 
 DF = os.path.join(HOME, '.dotfiles')
 DF_BASHRC = os.path.join(DF, BASHRC)
@@ -27,6 +29,7 @@ DF_INITVIM = os.path.join(DF, INITVIM)
 DF_GITCONFIG = os.path.join(DF, GITCONFIG)
 DF_TMUX_CONF = os.path.join(DF, TMUX_CONF)
 DF_VIMRC = os.path.join(DF, VIMRC)
+DF_ZSHRC = os.path.join(DF, ZSHRC)
 
 
 def parse_args(argv: List[str]) -> argparse.Namespace:
@@ -47,6 +50,7 @@ class FSInterface():
         self.pretend = pretend
 
     def append_to_file(self, filename: str, lines: List[str]):
+        """Add lines to the end of a file."""
         assert type(lines) is list
         if self.pretend:
             logging.info('PRETEND: Append these lines to %s:', filename)
@@ -90,7 +94,7 @@ def _file_contains_string(filepath: str, string: str) -> bool:
 
 
 def setup_bashrc(fsi: FSInterface):
-    """Setup .bashrc, the config file for Bash"""
+    """Setup .bashrc, the config file for Bash."""
     logging.info('Sourcing %s in %s', DF_BASHRC, HOME_BASHRC)
     bashrcs_to_source: List[str] = [DF_BASHRC]
     if _in_chroot():
@@ -108,8 +112,27 @@ def setup_bashrc(fsi: FSInterface):
     fsi.append_to_file(HOME_BASHRC, lines)
 
 
+def setup_zshrc(fsi: FSInterface):
+    """Setup .zshrc, the config file for Zsh."""
+    logging.info('Sourcing %s in %s', DF_ZSHRC, HOME_ZSHRC)
+    zshrcs_to_source: List[str] = [DF_ZSHRC]
+    if _in_chroot():
+        zshrcs_to_source.append(DF_CROS_SDK_ZSHRC)
+        logging.info(f'Sourcing the following .zshrc files in {HOME_ZSHRC}:')
+        logging.info(zshrcs_to_source)
+    lines = []
+    for zshrc_to_source in zshrcs_to_source:
+        if _file_contains_string(HOME_ZSHRC, f'source {DF_ZSHRC}'):
+            logging.info(f'{zshrc_to_source} already sourced. Skipping.')
+            continue
+        lines.extend(['',
+                 '# Import my standard .zshrc',
+                 'source %s' % DF_ZSHRC])
+    fsi.append_to_file(HOME_ZSHRC, lines)
+
+
 def setup_gitconfig(fsi: FSInterface):
-    """Setup .gitconfig, the config file for Git"""
+    """Setup .gitconfig, the config file for Git."""
     logging.info('Including %s in %s', DF_GITCONFIG, HOME_GITCONFIG)
     lines = ['[include]',
              '\tpath = %s' % DF_GITCONFIG]
@@ -117,7 +140,7 @@ def setup_gitconfig(fsi: FSInterface):
 
 
 def setup_tmux(fsi: FSInterface):
-    """Setup .tmux.conf, the config file for Tmux"""
+    """Setup .tmux.conf, the config file for Tmux."""
     if os.path.isfile(HOME_TMUX_CONF):
         logging.warning('%s exists. Not linking %s.', HOME_TMUX_CONF, TMUX_CONF)
         return
@@ -125,7 +148,7 @@ def setup_tmux(fsi: FSInterface):
 
 
 def setup_vimrc(fsi: FSInterface):
-    """Setup .vimrc, the config file for vi/vim"""
+    """Setup .vimrc, the config file for vi/vim."""
     if os.path.isfile(HOME_VIMRC):
         logging.warning('%s exists. Appending "source %s".', HOME_VIMRC, DF_VIMRC)
         fsi.append_to_file(HOME_VIMRC, ['source %s' % DF_VIMRC])
@@ -133,7 +156,7 @@ def setup_vimrc(fsi: FSInterface):
         fsi.create_link(DF_VIMRC, HOME_VIMRC)
 
 def setup_initvim(fsi: FSInterface):
-    """Setup init.vim, the config file for Neovim"""
+    """Setup init.vim, the config file for Neovim."""
     fsi.ensure_dir_exists(os.path.dirname(HOME_INITVIM))
     if os.path.isfile(HOME_INITVIM):
         logging.warning('%s exists. Appending "source %s".', HOME_INITVIM,
@@ -152,6 +175,7 @@ def main(argv: List[str]):
     setup_tmux(fsi)
     setup_vimrc(fsi)
     setup_initvim(fsi)
+    setup_zshrc(fsi)
 
 
 if __name__ == '__main__':
