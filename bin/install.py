@@ -95,32 +95,37 @@ def _file_contains_string(filepath: Path, string: str) -> bool:
     return string in filepath.read_text()
 
 
+def append_import_lines(
+    fsi: FSInterface, home_filepath: Path, import_lines: list[str]
+) -> None:
+    """Append lines that let home_filepath import from .dotfiles."""
+    if _file_contains_string(home_filepath, "\n".join(import_lines).strip()):
+        logging.info("%s already imports from dotfiles. Skipping.", home_filepath.name)
+        return
+    fsi.append_to_file(home_filepath, import_lines)
+
+
 def setup_bashrc(fsi: FSInterface) -> None:
     """Setup .bashrc, the config file for Bash."""
-    lines = ["", "# Import my standard .bashrc", f"source {DF_BASHRC}"]
-    if _file_contains_string(HOME_BASHRC, "\n".join(lines)):
-        logging.info("%s already sourced. Skipping.", BASHRC)
-        return
-    fsi.append_to_file(lines)
+    append_import_lines(
+        fsi, HOME_BASHRC, ["", "# Import my standard .bashrc", f"source {DF_BASHRC}"]
+    )
 
 
 def setup_zshrc(fsi: FSInterface) -> None:
     """Setup .zshrc, the config file for Zsh."""
-    lines = ["", "# Import my standard .zshrc", f"source {DF_ZSHRC}"]
-    if _file_contains_string(HOME_ZSHRC, "\n".join(lines)):
-        logging.info("%s already sourced. Skipping.", ZSHRC)
-        return
-    fsi.append_to_file(HOME_ZSHRC, lines)
+    append_import_lines(
+        fsi, HOME_ZSHRC, ["", "# Import my standard .zshrc", f"source {DF_ZSHRC}"]
+    )
 
 
 def setup_gitconfig(fsi: FSInterface) -> None:
     """Setup .gitconfig, the config file for Git."""
-    lines = ["[include]", f"\tpath = {DF_GITCONFIG}"]
-    if _file_contains_string(HOME_GITCONFIG, "\n".join(lines)):
-        logging.info("%s already included. Skipping.", GITCONFIG)
-        return
-    logging.info("Including %s in %s", DF_GITCONFIG, HOME_GITCONFIG)
-    fsi.append_to_file(HOME_GITCONFIG, lines)
+    append_import_lines(
+        fsi,
+        HOME_GITCONFIG,
+        ["[include]", f"\tpath = {DF_GITCONFIG}"],
+    )
 
 
 def setup_tmux(fsi: FSInterface) -> None:
@@ -134,8 +139,7 @@ def setup_tmux(fsi: FSInterface) -> None:
 def setup_vimrc(fsi: FSInterface) -> None:
     """Setup .vimrc, the config file for vi/vim."""
     if HOME_VIMRC.is_file():
-        logging.warning('%s exists. Appending "source %s".', HOME_VIMRC, DF_VIMRC)
-        fsi.append_to_file(HOME_VIMRC, [f"source {DF_VIMRC}"])
+        append_import_lines(fsi, HOME_VIMRC, [f"source {DF_VIMRC}"])
     else:
         fsi.create_link(DF_VIMRC, HOME_VIMRC)
 
