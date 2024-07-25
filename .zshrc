@@ -50,11 +50,12 @@ zstyle ':completion:*' users root $USER  # fix lag in google3
 autoload -Uz compinit && compinit -i
 
 # Other Zsh configuration, from go/zsh-prompt
-bindkey '^[[3~' delete-char           # enables DEL key proper behaviour
-bindkey '^[[1;5C' forward-word        # [Ctrl-RightArrow] - move forward one word
-bindkey '^[[1;5D' backward-word       # [Ctrl-LeftArrow] - move backward one word
-bindkey  "^[[H"   beginning-of-line   # [Home] - goes at the begining of the line
-bindkey  "^[[F"   end-of-line         # [End] - goes at the end of the line
+bindkey '^[[3~'   delete-char           # enables DEL key proper behaviour
+bindkey '^[[1;5C' forward-word          # [Ctrl-RightArrow] - move forward one word
+bindkey '^[[1;5D' backward-word         # [Ctrl-LeftArrow] - move backward one word
+bindkey  '^[[H'   beginning-of-line     # [Home] - goes at the begining of the line
+bindkey  '^[[F'   end-of-line           # [End] - goes at the end of the line
+bindkey  '\e[Z'   reverse-menu-complete # [Shift-Tab] - go back in the menu]
 
 # Enable history saving, from go/zsh-prompt
 HISTFILE=~/.histfile
