@@ -97,18 +97,20 @@ def _file_contains_string(filepath: Path, string: str) -> bool:
 
 def setup_bashrc(fsi: FSInterface) -> None:
     """Setup .bashrc, the config file for Bash."""
-    if _file_contains_string(HOME_BASHRC, f"source {DF_BASHRC}"):
+    lines = ["", "# Import my standard .bashrc", f"source {DF_BASHRC}"]
+    if _file_contains_string(HOME_BASHRC, "\n".join(lines)):
         logging.info("%s already sourced. Skipping.", BASHRC)
         return
-    fsi.append_to_file(["", "# Import my standard .bashrc", f"source {DF_BASHRC}"])
+    fsi.append_to_file(lines)
 
 
 def setup_zshrc(fsi: FSInterface) -> None:
     """Setup .zshrc, the config file for Zsh."""
-    if _file_contains_string(HOME_ZSHRC, f"source {DF_ZSHRC}"):
+    lines = ["", "# Import my standard .zshrc", f"source {DF_ZSHRC}"]
+    if _file_contains_string(HOME_ZSHRC, "\n".join(lines)):
         logging.info("%s already sourced. Skipping.", ZSHRC)
         return
-    fsi.append_to_file(["", "# Import my standard .zshrc", f"source {DF_ZSHRC}"])
+    fsi.append_to_file(HOME_ZSHRC, lines)
 
 
 def setup_gitconfig(fsi: FSInterface) -> None:
