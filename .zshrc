@@ -29,7 +29,7 @@ alias gd="git diff"
 alias gl="git log"
 alias gs="git status"
 alias nvim="/opt/nvim-linux64/bin/nvim"
-alias zshrc="nvim ~/.zshrc"
+alias zshrc="nvim ~/.dotfiles/.zshrc"
 
 # Piper completions
 if [[ -f /etc/bash_completion.d/g4d ]]; then
