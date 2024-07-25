@@ -11,14 +11,12 @@ from typing import Any
 
 BASHRC = ".bashrc"
 GITCONFIG = ".gitconfig"
-INITVIM = "init.vim"
 TMUX_CONF = ".tmux.conf"
 VIMRC = ".vimrc"
 ZSHRC = ".zshrc"
 
 HOME = Path.home()
 HOME_BASHRC = HOME / BASHRC
-HOME_INITVIM = HOME / ".config" / "nvim" / INITVIM
 HOME_GITCONFIG = HOME / GITCONFIG
 HOME_TMUX_CONF = HOME / TMUX_CONF
 HOME_VIMRC = HOME / VIMRC
@@ -26,7 +24,6 @@ HOME_ZSHRC = HOME / ZSHRC
 
 DF = HOME / ".dotfiles"
 DF_BASHRC = DF / BASHRC
-DF_INITVIM = DF / INITVIM
 DF_GITCONFIG = DF / GITCONFIG
 DF_TMUX_CONF = DF / TMUX_CONF
 DF_VIMRC = DF / VIMRC
@@ -144,16 +141,6 @@ def setup_vimrc(fsi: FSInterface) -> None:
     append_import_lines(fsi, HOME_VIMRC, [f"source {DF_VIMRC}"])
 
 
-def setup_initvim(fsi: FSInterface) -> None:
-    """Setup init.vim, the config file for Neovim."""
-    fsi.ensure_dir_exists(HOME_INITVIM.parent)
-    if HOME_INITVIM.is_file():
-        logging.warning('%s exists. Appending "source %s".', HOME_INITVIM, DF_INITVIM)
-        fsi.append_to_file(HOME_INITVIM, [f"source {DF_INITVIM}"])
-    else:
-        fsi.create_symlink(DF_INITVIM, HOME_INITVIM)
-
-
 def main(argv: list[str]) -> None:
     """Main script entrypoint. Install relevant dotfiles."""
     logging.basicConfig(level=logging.INFO)
@@ -163,7 +150,6 @@ def main(argv: list[str]) -> None:
     setup_gitconfig(fsi)
     setup_tmux(fsi)
     setup_vimrc(fsi)
-    setup_initvim(fsi)
     setup_zshrc(fsi)
 
 
