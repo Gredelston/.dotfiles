@@ -1,4 +1,4 @@
 [pager]
-    branch = cat
+    branch = false
 [branch]
     sort = -committerdate
