@@ -27,8 +27,6 @@ HOME_ZSHRC = HOME / ZSHRC
 
 DF = HOME / ".dotfiles"
 DF_BASHRC = DF / BASHRC
-DF_CROS_SDK_BASHRC = DF / ".cros_sdk_bashrc"
-DF_CROS_SDK_ZSHRC = DF / ".cros_sdk_zshrc"
 DF_INITVIM = DF / INITVIM
 DF_GITCONFIG = DF / GITCONFIG
 DF_TMUX_CONF = DF / TMUX_CONF
@@ -43,11 +41,6 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         "--pretend", help="Don't actually change anything", action="store_true"
     )
     return parser.parse_args(argv)
-
-
-def _in_chroot() -> bool:
-    """Determine whether this script is being run inside the ChromeOS chroot."""
-    return os.path.isfile("/etc/cros_chroot_version")
 
 
 class FSInterface:
@@ -106,12 +99,7 @@ def _file_contains_string(filepath: Path, string: str) -> bool:
 
 def setup_bashrc(fsi: FSInterface) -> None:
     """Setup .bashrc, the config file for Bash."""
-    logging.info("Sourcing %s in %s", DF_BASHRC, HOME_BASHRC)
     bashrcs_to_source: list[Path] = [DF_BASHRC]
-    if _in_chroot():
-        bashrcs_to_source.append(DF_CROS_SDK_BASHRC)
-        logging.info("Sourcing the following .bashrc files in %s:", HOME_BASHRC)
-        logging.info(bashrcs_to_source)
     lines = []
     for bashrc_to_source in bashrcs_to_source:
         if _file_contains_string(HOME_BASHRC, f"source {DF_BASHRC}"):
@@ -123,12 +111,7 @@ def setup_bashrc(fsi: FSInterface) -> None:
 
 def setup_zshrc(fsi: FSInterface) -> None:
     """Setup .zshrc, the config file for Zsh."""
-    logging.info("Sourcing %s in %s", DF_ZSHRC, HOME_ZSHRC)
     zshrcs_to_source: list[Path] = [DF_ZSHRC]
-    if _in_chroot():
-        zshrcs_to_source.append(DF_CROS_SDK_ZSHRC)
-        logging.info("Sourcing the following .zshrc files in %s:", HOME_ZSHRC)
-        logging.info(zshrcs_to_source)
     lines = []
     for zshrc_to_source in zshrcs_to_source:
         if _file_contains_string(HOME_ZSHRC, f"source {DF_ZSHRC}"):
