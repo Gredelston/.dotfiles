@@ -54,6 +54,8 @@ class FSInterface:
         if not lines:
             logging.info("No lines to append to %s", filepath)
             return
+        if filepath.is_file() and filepath.read_text()[-2:] != "\n\n":
+            lines = ["\n", *lines]
         if self.pretend:
             logging.info("PRETEND: Append these lines to %s:", filepath)
             lines = [line.replace("\t", " " * 4) for line in lines]
@@ -66,7 +68,6 @@ class FSInterface:
         with filepath.open("a") as f:
             logging.info("Appending %d lines to %s", len(lines), filepath)
             for line in lines:
-                f.write("\n")
                 f.write(line)
 
     def create_symlink(self, target: Path, link_path: Path) -> None:
@@ -110,14 +111,14 @@ def append_import_lines(
 def setup_bashrc(fsi: FSInterface) -> None:
     """Setup .bashrc, the config file for Bash."""
     append_import_lines(
-        fsi, HOME_BASHRC, ["", "# Import my standard .bashrc", f"source {DF_BASHRC}"]
+        fsi, HOME_BASHRC, ["# Import my standard .bashrc", f"source {DF_BASHRC}"]
     )
 
 
 def setup_zshrc(fsi: FSInterface) -> None:
     """Setup .zshrc, the config file for Zsh."""
     append_import_lines(
-        fsi, HOME_ZSHRC, ["", "# Import my standard .zshrc", f"source {DF_ZSHRC}"]
+        fsi, HOME_ZSHRC, ["# Import my standard .zshrc", f"source {DF_ZSHRC}"]
     )
 
 
