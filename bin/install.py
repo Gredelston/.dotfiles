@@ -69,14 +69,14 @@ class FSInterface:
                 f.write("\n")
                 f.write(line)
 
-    def create_link(self, target: Path, link_path: Path) -> None:
-        """Create a link to target at link_path."""
+    def create_symlink(self, target: Path, link_path: Path) -> None:
+        """Create a symlink to target at link_path."""
         assert target.is_file()
         if self.pretend:
-            logging.info("PRETEND: Create link to %s at %s", target, link_path)
+            logging.info("PRETEND: Create symlink to %s at %s", target, link_path)
             return
-        logging.info("Creating link to %s at %s", target, link_path)
-        link_path.hardlink_to(target)
+        logging.info("Creating symlink to %s at %s", target, link_path)
+        link_path.symlink_to(target)
 
     def ensure_dir_exists(self, dir_path: Path) -> None:
         """If the dir does not exist, create it."""
@@ -92,6 +92,8 @@ class FSInterface:
 
 
 def _file_contains_string(filepath: Path, string: str) -> bool:
+    if not filepath.is_file():
+        return False
     return string in filepath.read_text()
 
 
@@ -133,15 +135,12 @@ def setup_tmux(fsi: FSInterface) -> None:
     if HOME_TMUX_CONF.is_file():
         logging.warning("%s exists. Not linking %s.", HOME_TMUX_CONF, TMUX_CONF)
         return
-    fsi.create_link(DF_TMUX_CONF, HOME_TMUX_CONF)
+    fsi.create_symlink(DF_TMUX_CONF, HOME_TMUX_CONF)
 
 
 def setup_vimrc(fsi: FSInterface) -> None:
     """Setup .vimrc, the config file for vi/vim."""
-    if HOME_VIMRC.is_file():
-        append_import_lines(fsi, HOME_VIMRC, [f"source {DF_VIMRC}"])
-    else:
-        fsi.create_link(DF_VIMRC, HOME_VIMRC)
+    append_import_lines(fsi, HOME_VIMRC, [f"source {DF_VIMRC}"])
 
 
 def setup_initvim(fsi: FSInterface) -> None:
@@ -151,7 +150,7 @@ def setup_initvim(fsi: FSInterface) -> None:
         logging.warning('%s exists. Appending "source %s".', HOME_INITVIM, DF_INITVIM)
         fsi.append_to_file(HOME_INITVIM, [f"source {DF_INITVIM}"])
     else:
-        fsi.create_link(DF_INITVIM, HOME_INITVIM)
+        fsi.create_symlink(DF_INITVIM, HOME_INITVIM)
 
 
 def main(argv: list[str]) -> None:
