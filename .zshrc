@@ -21,11 +21,14 @@ fi
 
 # Aliases
 alias ga.="git add ."
+alias gb="git branch"
 alias gca="git commit --amend"
 alias gcan="git commit --amend --no-edit"
 alias gco="git checkout"
 alias gc-="git checkout -"
 alias gd="git diff"
+alias gdc="git diff --cached"
+alias gdh="git diff HEAD^"
 alias gl="git log"
 alias gs="git status"
 alias nvim="/opt/nvim-linux64/bin/nvim"
