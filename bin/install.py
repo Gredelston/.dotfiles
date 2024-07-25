@@ -92,8 +92,7 @@ class FSInterface:
 
 
 def _file_contains_string(filepath: Path, string: str) -> bool:
-    with filepath.open() as f:
-        return string in "\n".join(f.readlines())
+    return string in filepath.read_text()
 
 
 def setup_bashrc(fsi: FSInterface) -> None:
@@ -114,8 +113,11 @@ def setup_zshrc(fsi: FSInterface) -> None:
 
 def setup_gitconfig(fsi: FSInterface) -> None:
     """Setup .gitconfig, the config file for Git."""
-    logging.info("Including %s in %s", DF_GITCONFIG, HOME_GITCONFIG)
     lines = ["[include]", f"\tpath = {DF_GITCONFIG}"]
+    if _file_contains_string(HOME_GITCONFIG, "\n".join(lines)):
+        logging.info("%s already included. Skipping.", GITCONFIG)
+        return
+    logging.info("Including %s in %s", DF_GITCONFIG, HOME_GITCONFIG)
     fsi.append_to_file(HOME_GITCONFIG, lines)
 
 
