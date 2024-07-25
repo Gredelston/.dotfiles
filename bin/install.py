@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+"""Install any dotfiles that aren't already linked to this repo."""
+
 import argparse
 import logging
 import os
@@ -26,6 +28,7 @@ HOME_ZSHRC = HOME / ZSHRC
 DF = HOME / '.dotfiles'
 DF_BASHRC = DF / BASHRC
 DF_CROS_SDK_BASHRC = DF / '.cros_sdk_bashrc'
+DF_CROS_SDK_ZSHRC = DF / '.cros_sdk_zshrc'
 DF_INITVIM = DF / INITVIM
 DF_GITCONFIG = DF / GITCONFIG
 DF_TMUX_CONF = DF / TMUX_CONF
@@ -34,6 +37,7 @@ DF_ZSHRC = DF / ZSHRC
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
+    """Interpret command-line options for this script."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--pretend",
                         help="Don't actually change anything",
@@ -42,6 +46,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 
 def _in_chroot() -> bool:
+    """Determine whether this script is being run inside the ChromeOS chroot."""
     return os.path.isfile('/etc/cros_chroot_version')
 
 
@@ -52,7 +57,7 @@ class FSInterface:
 
     def append_to_file(self, filepath: Path, lines: list[str]) -> None:
         """Add lines to the end of a file."""
-        assert type(lines) is list
+        assert isinstance(lines, list)
         if not lines:
             logging.info('No lines to append to %s', filepath)
             return
@@ -72,6 +77,7 @@ class FSInterface:
                 f.write(line)
 
     def create_link(self, target: Path, link_path: Path) -> None:
+        """Create a link to target at link_path."""
         assert target.is_file()
         if self.pretend:
             logging.info('PRETEND: Create link to %s at %s', target, link_path)
@@ -168,6 +174,7 @@ def setup_initvim(fsi: FSInterface) -> None:
 
 
 def main(argv: list[str]) -> None:
+    """Main script entrypoint. Install relevant dotfiles."""
     logging.basicConfig(level=logging.INFO)
     args = parse_args(argv)
     fsi = FSInterface(args.pretend)
