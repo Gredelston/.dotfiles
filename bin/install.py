@@ -4,7 +4,6 @@
 
 import argparse
 import logging
-import os
 from pathlib import Path
 import sys
 from typing import Any
@@ -99,26 +98,18 @@ def _file_contains_string(filepath: Path, string: str) -> bool:
 
 def setup_bashrc(fsi: FSInterface) -> None:
     """Setup .bashrc, the config file for Bash."""
-    bashrcs_to_source: list[Path] = [DF_BASHRC]
-    lines = []
-    for bashrc_to_source in bashrcs_to_source:
-        if _file_contains_string(HOME_BASHRC, f"source {DF_BASHRC}"):
-            logging.info("%s already sourced. Skipping.", bashrc_to_source)
-            continue
-        lines.extend(["", "# Import my standard .bashrc", f"source {DF_BASHRC}"])
-    fsi.append_to_file(HOME_BASHRC, lines)
+    if _file_contains_string(HOME_BASHRC, f"source {DF_BASHRC}"):
+        logging.info("%s already sourced. Skipping.", BASHRC)
+        return
+    fsi.append_to_file(["", "# Import my standard .bashrc", f"source {DF_BASHRC}"])
 
 
 def setup_zshrc(fsi: FSInterface) -> None:
     """Setup .zshrc, the config file for Zsh."""
-    zshrcs_to_source: list[Path] = [DF_ZSHRC]
-    lines = []
-    for zshrc_to_source in zshrcs_to_source:
-        if _file_contains_string(HOME_ZSHRC, f"source {DF_ZSHRC}"):
-            logging.info("%s already sourced. Skipping.", zshrc_to_source)
-            continue
-        lines.extend(["", "# Import my standard .zshrc", f"source {DF_ZSHRC}"])
-    fsi.append_to_file(HOME_ZSHRC, lines)
+    if _file_contains_string(HOME_ZSHRC, f"source {DF_ZSHRC}"):
+        logging.info("%s already sourced. Skipping.", ZSHRC)
+        return
+    fsi.append_to_file(["", "# Import my standard .zshrc", f"source {DF_ZSHRC}"])
 
 
 def setup_gitconfig(fsi: FSInterface) -> None:
