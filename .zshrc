@@ -24,6 +24,7 @@ alias ga.="git add ."
 alias gb="git branch"
 alias gca="git commit --amend"
 alias gcan="git commit --amend --no-edit"
+alias gcm="git checkout main"
 alias gco="git checkout"
 alias gc-="git checkout -"
 alias gd="git diff"
@@ -87,6 +88,11 @@ if [[ -f /usr/local/google/home/gredelston/.local/share/lscolors.sh ]]; then
   source "/usr/local/google/home/gredelston/.local/share/lscolors.sh"
 fi
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}  
+
+# ChromeOS workspace stuff
+if [[ ${HOST: -13} = ".googlers.com" ]]; then
+  export PATH=$PATH:$HOME/depot_tools
+fi
 
 # Android development conveniences
 export BOARD_CF="cf_x86_64_al"
