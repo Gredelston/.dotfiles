@@ -35,6 +35,12 @@ alias gs="git status"
 alias nvim="/opt/nvim-linux64/bin/nvim"
 alias zshrc="nvim ~/.dotfiles/.zshrc"
 
+# Aliases that only make sense at Google
+if [[ ${HOST: -13} = ".googlers.com" ]]; then
+  alias ru.="repo upload --cbr ."
+  alias ru.y="repo upload --cbr . -y"
+fi
+
 # Piper completions
 if [[ -f /etc/bash_completion.d/g4d ]]; then
   . /etc/bash_completion.d/p4
