@@ -32,7 +32,6 @@ alias gdc="git diff --cached"
 alias gdh="git diff HEAD^"
 alias gl="git log"
 alias gs="git status"
-alias nvim="/opt/nvim-linux64/bin/nvim"
 alias rgproto="rg -g '**.proto'"
 alias rgpy="rg -g '**.py'"
 alias rgstar="rg -g '**.star'"
@@ -89,7 +88,9 @@ source ~/.zsh/powerlevel10k/powerlevel9k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Cog (CitC-on-Git-on-Borg)
-source /etc/bash_completion.d/cogd
+if [[ -f /etc/bash_completion.d/cogd ]]; then
+  source /etc/bash_completion.d/cogd
+fi
 
 # Enable differenciated colors per file type (ls) -- from go/zsh-prompt
 alias ls="ls --color=auto"
