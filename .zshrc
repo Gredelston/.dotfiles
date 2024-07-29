@@ -1,6 +1,21 @@
 # Re-execute in Tmux.
 if [ "$TMUX" = "" ]; then tmx2 new-session -A; fi
 
+# Install zsh plugins.
+if [[ ! -d $HOME/.zsh ]]; then mkdir $HOME/.zsh; fi
+if [[ ! -d $HOME/.zsh/powerlevel10k ]]; then
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.zsh/powerlevel10k
+fi
+if [[ ! -d $HOME/.zsh/fast-syntax-highlighting ]]; then
+  git clone https://github.com/zdharma-continuum/fast-syntax-highlighting $HOME/.zsh/fast-syntax-highlighting
+fi
+if [[ ! -d $HOME/.zsh/zsh-autosuggestions ]]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.zsh/zsh-autosuggestions
+fi
+if ! command -v zoxide > /dev/null; then
+  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+fi
+
 # Shell prompt by Powerlevel10k
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -78,7 +93,7 @@ setopt share_history        # share history between multiple instances of zsh
 
 # Setup plugins
 source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/powerlevel10k/powerlevel9k.zsh-theme
 
 # FZF
