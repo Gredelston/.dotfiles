@@ -65,7 +65,7 @@ class FSInterface:
         with filepath.open("a") as f:
             logging.info("Appending %d lines to %s", len(lines), filepath)
             for line in lines:
-                f.write(line)
+                f.write(line + "\n")
 
     def create_symlink(self, target: Path, link_path: Path) -> None:
         """Create a symlink to target at link_path."""
