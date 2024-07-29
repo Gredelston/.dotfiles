@@ -91,7 +91,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # ChromeOS workspace stuff
 if [[ ${HOST: -13} = ".googlers.com" ]]; then
-  export PATH=$PATH:$HOME/depot_tools
+  export PATH=$HOME/depot_tools:$PATH
 fi
 
 # Android development conveniences
