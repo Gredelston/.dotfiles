@@ -33,6 +33,9 @@ alias gdh="git diff HEAD^"
 alias gl="git log"
 alias gs="git status"
 alias nvim="/opt/nvim-linux64/bin/nvim"
+alias rgproto="rg -g '**.proto'"
+alias rgpy="rg -g '**.py'"
+alias rgstar="rg -g '**.star'"
 alias zshrc="nvim ~/.dotfiles/.zshrc"
 
 # Aliases that only make sense at Google
