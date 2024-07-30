@@ -1,5 +1,7 @@
 # Re-execute in Tmux.
-if [ "$TMUX" = "" ]; then tmx2 new-session -A; fi
+if [[ $HOST != "gredelston-carbon-v9" ]]; then
+  if [ "$TMUX" = "" ]; then tmx2 new-session -A; fi
+fi
 
 # Install zsh plugins.
 if [[ ! -d $HOME/.zsh ]]; then mkdir $HOME/.zsh; fi
