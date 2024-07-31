@@ -4,6 +4,6 @@
 #   0 if the host is a Google machine, else 1.
 #######################################
 function on_google_host() {
-  return $(test ${HOST: -13} = ".googlers.com")
+  return $(test -d '/google')
 }
 
