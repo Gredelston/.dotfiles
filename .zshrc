@@ -120,6 +120,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 if [[ ${HOST: -13} = ".googlers.com" ]]; then
   export PATH=$HOME/depot_tools:$PATH
 fi
+if [[ $HOST = gregs-cool-cloudtop.c.googlers.com ]]; then
+  export SKIP_GCE_AUTH_FOR_GIT=1
+fi
 
 # Android development conveniences
 export BOARD_CF="cf_x86_64_al"
