@@ -15,7 +15,7 @@ function should_reexecute_in_tmux() {
       ;;
     *)
       # If we're already in a tmux session, don't reexecute.
-      return $(test $TMUX = "")
+      return $(test "$TMUX" = "")
       ;;
   esac
 }
