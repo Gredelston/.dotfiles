@@ -1,3 +1,7 @@
+# Import other zshrc scripts.
+DOTFILES=$HOME/.dotfiles
+source $DOTFILES/zsh/functions.zsh
+
 # Re-execute in Tmux.
 if [[ $HOST != "gredelston-carbon-v9" ]]; then
   if [ "$TMUX" = "" ]; then tmx2 new-session -A; fi
@@ -117,7 +121,7 @@ fi
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}  
 
 # ChromeOS workspace stuff
-if [[ ${HOST: -13} = ".googlers.com" ]]; then
+if on_google_host; then
   export PATH=$HOME/depot_tools:$PATH
 fi
 if [[ $HOST = gregs-cool-cloudtop.c.googlers.com ]]; then
