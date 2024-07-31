@@ -1,7 +1,12 @@
 # Import other zshrc scripts.
 export DOTFILES=$HOME/.dotfiles
-source $DOTFILES/zsh/tmux.zsh
+# Start by sourcing functions, because we want them to be available, and
+# functions.zsh shouldn't actually call anything.
 source $DOTFILES/zsh/functions.zsh
+# Then re-execute in tmux, if necessary.
+source $DOTFILES/zsh/tmux.zsh
+# Then other stuff that can happen in any order.
+source $DOTFILES/zsh/aliases.zsh
 
 # Install zsh plugins.
 if [[ ! -d $HOME/.zsh ]]; then mkdir $HOME/.zsh; fi
@@ -34,30 +39,6 @@ if command -v zoxide > /dev/null; then
   eval "$(zoxide init zsh)"
 else
   echo "WARNING: zoxide not installed"
-fi
-
-# Aliases
-alias ga.="git add ."
-alias gb="git branch"
-alias gca="git commit --amend"
-alias gcan="git commit --amend --no-edit"
-alias gcm="git checkout main"
-alias gco="git checkout"
-alias gc-="git checkout -"
-alias gd="git diff"
-alias gdc="git diff --cached"
-alias gdh="git diff HEAD^"
-alias gl="git log"
-alias gs="git status"
-alias rgproto="rg -g '**.proto'"
-alias rgpy="rg -g '**.py'"
-alias rgstar="rg -g '**.star'"
-alias zshrc="nvim ~/.dotfiles/.zshrc"
-
-# Aliases that only make sense at Google
-if [[ ${HOST: -13} = ".googlers.com" ]]; then
-  alias ru.="repo upload --cbr ."
-  alias ru.y="repo upload --cbr . -y"
 fi
 
 # Piper completions
@@ -110,7 +91,6 @@ if [[ -f /etc/bash_completion.d/cogd ]]; then
 fi
 
 # Enable differenciated colors per file type (ls) -- from go/zsh-prompt
-alias ls="ls --color=auto"
 if [[ -f /usr/local/google/home/gredelston/.local/share/lscolors.sh ]]; then
   source "/usr/local/google/home/gredelston/.local/share/lscolors.sh"
 fi
@@ -123,9 +103,4 @@ fi
 if [[ $HOST = gregs-cool-cloudtop.c.googlers.com ]]; then
   export SKIP_GCE_AUTH_FOR_GIT=1
 fi
-
-# Android development conveniences
-export BOARD_CF="cf_x86_64_al"
-alias LUNCH_CF='lunch ${BOARD_CF}-trunk_staging-eng'
-alias HOW_TO_BUILD_ANDROID='echo "cd ~/al\n. build/envsetup.sh\nLUNCH_CF\nm installclean\nm"'
 

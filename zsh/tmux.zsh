@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-source $DOTFILES/zsh/functions.zsh
-
 #######################################
 # Check whether this shell should reexecute in tmux.
 # Returns:
