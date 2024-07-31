@@ -27,10 +27,14 @@ alias zshrc="nvim ~/.dotfiles/.zshrc"
 if on_google_host; then
   # Note: `alias tmux=tmx2` is important and Google-specific, but it is handled
   # separately in tmux.zsh (which should be sourced before this).
-  #
+
   # repo aliases.
   alias ru.="repo upload --cbr ."
   alias ru.y="repo upload --cbr . -y"
+
+  # recipes aliases.
+  alias rtt="./recipes.py test train"
+  alias fart="git cl format --no-clang-format --python && ./recipes.py test train"
 fi
 
 # Host-specific aliases.
