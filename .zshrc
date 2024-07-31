@@ -1,11 +1,7 @@
 # Import other zshrc scripts.
-DOTFILES=$HOME/.dotfiles
+export DOTFILES=$HOME/.dotfiles
+source $DOTFILES/zsh/tmux.zsh
 source $DOTFILES/zsh/functions.zsh
-
-# Re-execute in Tmux.
-if [[ $HOST != "gredelston-carbon-v9" ]]; then
-  if [ "$TMUX" = "" ]; then tmx2 new-session -A; fi
-fi
 
 # Install zsh plugins.
 if [[ ! -d $HOME/.zsh ]]; then mkdir $HOME/.zsh; fi
