@@ -16,7 +16,7 @@ alias gs="git status"
 
 # rg (ripgrep) aliases.
 alias rgproto="rg -g '**.proto'"
-alias rgpy="rg -g '**.py'"
+alias rgpy="rg -g '**.py' -g '!**_pb2.py'"
 alias rgstar="rg -g '**.star'"
 
 # Misc conveniences.
