@@ -35,6 +35,9 @@ if on_google_host; then
   # recipes aliases.
   alias rtt="./recipes.py test train"
   alias fart="git cl format --no-clang-format --python && ./recipes.py test train"
+
+  # git aliases
+  alias gups="git branch --set-upstream-to m/main"
 fi
 
 # Host-specific aliases.
