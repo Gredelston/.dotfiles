@@ -29,6 +29,6 @@ fi
 
 # Re-execute in tmux, if necessary.
 if should_reexecute_in_tmux; then
-  tmx2 new-session -A
+  tmux new-session -A
 fi
 
