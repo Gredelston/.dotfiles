@@ -12,7 +12,7 @@ function should_reexecute_in_tmux() {
   return $(
     case $HOST in
       gredelston-carbon-v9)
-        1
+        false
         ;;
       *)
         # If we're already in a tmux session, don't reexecute.
