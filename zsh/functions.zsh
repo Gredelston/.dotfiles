@@ -11,8 +11,7 @@ function on_google_host() {
 if on_google_host; then
 
   #######################################
-  # Check whether we already have a gcert certificate.
-  # If not, run gcert.
+  # Make sure we have a valid gcert.
   #######################################
   function gcert_if_needed() {
     if ! $(gcertstatus -quiet); then
@@ -20,11 +19,20 @@ if on_google_host; then
       gcert
     fi
   }
+
+  #######################################
+  # Convenience wrapper around repo sync.
+  #######################################
+  function repo_sync() {
+    gcert_if_needed
+    repo sync
+  }
 fi
 
 # Host-specific functions.
 case $HOST in
 
+  # My Google laptop.
   gredelston-carbon-v9)
 
     #######################################
