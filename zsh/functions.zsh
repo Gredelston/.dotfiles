@@ -7,15 +7,34 @@ function on_google_host() {
   return $(test -d '/google')
 }
 
+# Google-specific functions.
+if on_google_host; then
+
+  #######################################
+  # Check whether we already have a gcert certificate.
+  # If not, run gcert.
+  #######################################
+  function gcert_if_needed() {
+    if ! $(gcertstatus -quiet); then
+      echo "Need to gcert."
+      gcert
+    fi
+  }
+fi
+
 # Host-specific functions.
 case $HOST in
+
   gredelston-carbon-v9)
+
+    #######################################
+    # Check whether we already have a gcert certificate.
+    # If not, run gcert.
+    #######################################
     cloudtop() {
-      if ! $(gcertstatus -quiet); then
-	echo "Need to gcert."
-	gcert
-      fi
+      gcert_if_needed
       ssh gregs-cool-cloudtop.c.googlers.com
     }
     ;;
 esac
+
