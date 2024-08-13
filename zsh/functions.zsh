@@ -27,6 +27,7 @@ if on_google_host; then
     gcert_if_needed
     repo sync
   }
+  alias repo-sync="repo_sync"
 fi
 
 # Host-specific functions.
