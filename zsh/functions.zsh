@@ -70,6 +70,30 @@ if on_google_host; then
     repo sync
   }
   alias repo-sync="repo_sync"
+
+  #######################################
+  # Find the directory among the working dir's ancestors that contains .repo/.
+  #######################################
+  function repo_root() {
+    local dir="$PWD"
+    while [[ $dir != "/" ]]; do
+      if [[ -d "$dir/.repo" ]]; then
+        echo "$dir"
+        return 0
+      fi
+      dir="${dir:h}"
+    done
+
+    echo "No .repo/ dir found." >&2
+    return 1
+  }
+
+  #######################################
+  # Open the default manifest file for the active repo.
+  #######################################
+  function open_manifest() {
+    nvim $(repo_root)/.repo/manifests/default.xml
+  }
 fi
 
 # Host-specific functions.
