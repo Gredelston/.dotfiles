@@ -110,6 +110,13 @@ case $HOST in
       gcert_if_needed
       ssh gregs-cool-cloudtop.c.googlers.com
     }
+
+    #######################################
+    # Flash an OS image onto a USB stick.
+    #######################################
+    flash_image() {
+      sudo dd if=$1 of=/dev/sda bs=8M oflag=sync status=progress
+    }
     ;;
 esac
 
