@@ -1,5 +1,12 @@
 #!/usr/bin/env zsh
 
+#######################################
+# Tell the user to use a different command.
+#######################################
+function suggest_better_command() {
+  echo "Use \`$1\` instead!"
+}
+
 # Git aliases.
 alias ga.="git add ."
 alias gb="git branch"
@@ -15,8 +22,10 @@ alias gl="git log"
 alias gs="git status"
 
 # rg (ripgrep) aliases.
-alias rgproto="rg -g '**.proto'"
-alias rgpy="rg -g '**.py' -g '!**_pb2.py'"
+# TODO: Remove once I've gotten accustomed to -t.
+alias rgproto="suggest_better_command 'rg -t protobuf'"
+alias rgpy="suggest_better_command 'rg -t py'"
+alias rgmk="suggest_better_command 'rg -t make'"
 alias rgstar="rg -g '**.star'"
 
 # Misc conveniences.
