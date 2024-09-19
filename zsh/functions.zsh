@@ -115,7 +115,18 @@ case $HOST in
     # Flash an OS image onto a USB stick.
     #######################################
     flash_image() {
-      sudo dd if=$1 of=/dev/sda bs=8M oflag=sync status=progress
+      local image_path=$1
+      if [ -z $image_path ]; then
+	echo "Missing required positional arg: image_path"
+	return 1
+      elif [ ! -e $image_path ]; then
+	echo "Invalid image $image_path: file not found"
+	return 1
+      elif [[ $image_path != *.bin ]]; then
+	echo "Invalid image $image_path: must end in .bin"
+	return 1
+      fi
+      sudo dd if=$image_path of=/dev/sda bs=8M oflag=sync status=progress
     }
     ;;
 esac
