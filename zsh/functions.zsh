@@ -94,6 +94,35 @@ if on_google_host; then
   function open_manifest() {
     nvim $(repo_root)/.repo/manifests/default.xml
   }
+
+  #######################################
+  # Repo sync all of the repo projects
+  #######################################
+  function repo-sync-all() {
+    local SUCCESSFUL_PROJECTS=()
+    local FAILED_PROJECTS=()
+    local NUM_PROJECTS=0
+    for subdir in $(ls $HOME); do
+      if [ ! -d $HOME/$subdir/.repo ]; then
+        continue
+      fi
+
+      echo "Syncing repo project $HOME/$subdir"
+      let NUM_PROJECTS++
+      pushd $HOME/$subdir -q
+      if repo_sync; then
+        SUCCESSFUL_PROJECTS+=($subdir)
+      else
+        FAILED_PROJECTS+=($subdir)
+      fi
+      popd -q
+    done
+
+    echo
+    echo "Done syncing $NUM_PROJECTS projects."
+    echo "$#SUCCESSFUL_PROJECTS successful projects: $SUCCESSFUL_PROJECTS"
+    echo "$#FAILED_PROJECTS failed projects: $FAILED_PROJECTS"
+  }
 fi
 
 # Host-specific functions.
