@@ -109,7 +109,7 @@ if on_google_host; then
 
       echo "Syncing repo project $HOME/$subdir"
       let NUM_PROJECTS++
-      pushd $HOME/$subdir -q
+      pushd -q $HOME/$subdir
       if repo_sync; then
         SUCCESSFUL_PROJECTS+=($subdir)
       else
