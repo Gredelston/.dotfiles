@@ -107,7 +107,12 @@ if on_google_host; then
         continue
       fi
 
-      echo "Syncing repo project $HOME/$subdir"
+      echo
+      echo "###################################"
+      echo "# Syncing repo project: ~/$subdir"
+      echo "###################################"
+      echo
+
       let NUM_PROJECTS++
       pushd -q $HOME/$subdir
       if repo_sync; then
