@@ -53,7 +53,7 @@ fi
 case $HOST in
   gregs-cool-cloudtop.c.googlers.com)
     # Android development conveniences
-    alias HOW_TO_BUILD_ANDROID='echo "cd ~/al\n. build/envsetup.sh\nlunch cf_x86_64_al-trunk_staging-eng\nm installclean\nm"'
+    alias HOW_TO_BUILD_ANDROID='echo ". build/envsetup.sh\nlunch cf_x86_64_desktop-trunk_staging-eng\nm installclean\nm"'
     ;;
 esac
 
