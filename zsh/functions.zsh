@@ -1,4 +1,16 @@
 #######################################
+# Pretty-print a line of text in a block of octothorps.
+#######################################
+function octothorprint_line() {
+  local main_line="# $1 #"
+  local line_length=$(echo -n $main_line | wc -m)
+  local octothorp_line=$(repeat $line_length print -rn '#')
+  print $octothorp_line
+  print $main_line
+  print $octothorp_line
+}
+
+#######################################
 # Check whether this host is a Google machine.
 # Returns:
 #   0 if the host is a Google machine, else 1.
@@ -107,11 +119,9 @@ if on_google_host; then
         continue
       fi
 
-      echo
-      echo "###################################"
-      echo "# Syncing repo project: ~/$subdir"
-      echo "###################################"
-      echo
+      print
+      octothorprint_line "Syncing repo project: ~/$subdir"
+      print
 
       let NUM_PROJECTS++
       pushd -q $HOME/$subdir
