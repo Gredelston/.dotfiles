@@ -8,6 +8,9 @@ source $DOTFILES/zsh/tmux.zsh
 # Then other stuff that can happen in any order.
 source $DOTFILES/zsh/aliases.zsh
 
+# Set up PATH
+export PATH=$HOME/.local/bin:$PATH
+
 # Install zsh plugins.
 if [[ ! -d $HOME/.zsh ]]; then mkdir $HOME/.zsh; fi
 if [[ ! -d $HOME/.zsh/powerlevel10k ]]; then
