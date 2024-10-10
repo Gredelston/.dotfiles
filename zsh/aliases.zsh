@@ -31,6 +31,7 @@ alias rgstar="rg -g '**.star'"
 # Misc conveniences.
 alias ls="ls --color=auto"
 alias zshrc="nvim ~/.dotfiles/.zshrc"
+alias e="eza"
 
 # Google-specific aliases.
 if on_google_host; then
