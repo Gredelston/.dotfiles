@@ -138,6 +138,17 @@ if on_google_host; then
     echo "$#SUCCESSFUL_PROJECTS successful projects: $SUCCESSFUL_PROJECTS"
     echo "$#FAILED_PROJECTS failed projects: $FAILED_PROJECTS"
   }
+
+  #######################################
+  # Extract the kernel version from a .ko file.
+  #######################################
+  function vermagic() {
+    local target_file=$1
+    local vermagic_line=$( egrep -haom1 'vermagic=.*' $target_file )
+    local vermagic_keyval=$( echo $vermagic_line | awk ' { print $1 } ' )
+    local vermagic_value=$( echo $vermagic_keyval | sed s/vermagic=// )
+    print $vermagic_value
+  }
 fi
 
 # Host-specific functions.
