@@ -111,6 +111,7 @@ if on_google_host; then
   # Repo sync all of the repo projects
   #######################################
   function repo-sync-all() {
+    gcert_if_needed
     local SUCCESSFUL_PROJECTS=()
     local FAILED_PROJECTS=()
     local NUM_PROJECTS=0
