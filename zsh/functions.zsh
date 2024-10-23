@@ -150,6 +150,13 @@ if on_google_host; then
     local vermagic_value=$( echo $vermagic_keyval | sed s/vermagic=// )
     print $vermagic_value
   }
+
+  #######################################
+  # Push a commit to Gerrit for review, outside of `repo`.
+  #######################################
+  function push_to_gerrit() {
+    git push origin HEAD:refs/for/$1
+  }
 fi
 
 # Host-specific functions.
