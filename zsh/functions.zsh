@@ -157,6 +157,41 @@ if on_google_host; then
   function push_to_gerrit() {
     git push origin HEAD:refs/for/$1
   }
+
+  #######################################
+  # Check whether the user is currently in a Piper workspace.
+  # Returns:
+  #   0 if the pwd is in a Piper workspace, else 1.
+  #######################################
+  function in_piper_workspace() {
+    p4 client -o | grep -q 'Client:\s*[^:]*:[^:]*:[0-9]*:citc'
+  }
+
+  #######################################
+  # Check whether the user is currently in a Fig workspace.
+  # Returns:
+  #   0 if the pwd is in a Fig workspace, else 10.
+  #######################################
+  function in_fig_workspace() {
+    hg root &>/dev/null
+  }
+
+  #######################################
+  # Within a Piper/Fig workspace, cd to the cros-ci-oncall directory.
+  #######################################
+  function goto_ci_oncall() {
+    if in_piper_workspace; then
+      g4d
+      cd ..
+    elif in_fig_workspace; then
+      cd $(hg root)
+    else
+      echo 'Must be in a Piper or Fig workspace!'
+      return 1
+    fi
+    cd company/teams/chrome/ops/chromeos/chromeos-infra/continuous_integration
+    cd on-call
+  }
 fi
 
 # Host-specific functions.
