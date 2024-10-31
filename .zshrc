@@ -82,6 +82,9 @@ source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/powerlevel10k/powerlevel9k.zsh-theme
 
+# Customize rg (ripgrep)
+export RIPGREP_CONFIG_PATH=${HOME}/.dotfiles/.ripgreprc
+
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
