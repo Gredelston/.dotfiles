@@ -26,7 +26,7 @@ alias gs="git status"
 alias rgproto="suggest_better_command 'rg -t protobuf'"
 alias rgpy="suggest_better_command 'rg -t py'"
 alias rgmk="suggest_better_command 'rg -t make'"
-alias rgstar="rg -g '**.star'"
+alias rgstar="suggest_better_command 'rg -t star'"
 
 # Misc conveniences.
 alias ls="ls --color=auto"
