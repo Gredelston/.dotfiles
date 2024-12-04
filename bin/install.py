@@ -136,6 +136,9 @@ def append_import_lines(
 
 def setup_corp_dotfiles(fsi: FSInterface) -> None:
     """Set up additional dotfiles that live on-corp."""
+    if DF_CORP_DOTFILES.is_dir():
+        logging.info("%s exists. Skipping.", DF_CORP_DOTFILES)
+        return
     fsi.run(
         [
             "git",
@@ -172,7 +175,7 @@ def setup_gitconfig(fsi: FSInterface) -> None:
 def setup_tmux(fsi: FSInterface) -> None:
     """Setup .tmux.conf, the config file for Tmux."""
     if HOME_TMUX_CONF.is_file():
-        logging.warning("%s exists. Not linking %s.", HOME_TMUX_CONF, TMUX_CONF)
+        logging.info("%s exists. Not linking %s.", HOME_TMUX_CONF, TMUX_CONF)
         return
     fsi.create_symlink(DF_TMUX_CONF, HOME_TMUX_CONF)
 
