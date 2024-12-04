@@ -66,38 +66,3 @@ if on_google_host; then
   source $DOTFILES/corp-dotfiles/zsh/functions.zsh
 fi
 
-# Host-specific functions.
-case $HOST in
-
-  # My Google laptop.
-  gredelston-carbon-v9)
-
-    #######################################
-    # Check whether we already have a gcert certificate.
-    # If not, run gcert.
-    #######################################
-    cloudtop() {
-      gcert_if_needed
-      ssh gregs-cool-cloudtop.c.googlers.com
-    }
-
-    #######################################
-    # Flash an OS image onto a USB stick.
-    #######################################
-    flash_image() {
-      local image_path=$1
-      if [ -z $image_path ]; then
-	echo "Missing required positional arg: image_path"
-	return 1
-      elif [ ! -e $image_path ]; then
-	echo "Invalid image $image_path: file not found"
-	return 1
-      elif [[ $image_path != *.bin ]]; then
-	echo "Invalid image $image_path: must end in .bin"
-	return 1
-      fi
-      sudo dd if=$image_path of=/dev/sda bs=8M oflag=sync status=progress
-    }
-    ;;
-esac
-
