@@ -5,6 +5,7 @@
 import argparse
 import logging
 from pathlib import Path
+import subprocess
 import sys
 from typing import Any
 
@@ -24,6 +25,7 @@ HOME_ZSHRC = HOME / ZSHRC
 
 DF = HOME / ".dotfiles"
 DF_BASHRC = DF / BASHRC
+DF_CORP_DOTFILES = DF / "corp-dotfiles"
 DF_GITCONFIG = DF / GITCONFIG
 DF_TMUX_CONF = DF / TMUX_CONF
 DF_VIMRC = DF / VIMRC
@@ -84,9 +86,17 @@ class FSInterface:
     def mkdir(self, dir_path: Path, **kwargs: Any) -> None:
         """Create a directory."""
         if self.pretend:
-            logging.info("PRETEND: Create directory: {dir_path}")
+            logging.info("PRETEND: Create directory: %s", dir_path)
             return
         dir_path.mkdir(**kwargs)
+
+    def run(self, cmd: list[str | Path], **kwargs: Any) -> None:
+        """Run a command."""
+        if self.pretend:
+            logging.info("PRETEND: Run command %s (kwargs=%s)", cmd, kwargs)
+            return
+        logging.info("Running command %s (kwargs=%s)", cmd, kwargs)
+        subprocess.run(cmd, check=True, **kwargs)
 
 
 def _file_contains_string(filepath: Path, string: str) -> bool:
@@ -103,6 +113,18 @@ def append_import_lines(
         logging.info("%s already imports from dotfiles. Skipping.", home_filepath.name)
         return
     fsi.append_to_file(home_filepath, import_lines)
+
+
+def setup_corp_dotfiles(fsi: FSInterface) -> None:
+    """Set up additional dotfiles that live on-corp."""
+    fsi.run(
+        [
+            "git",
+            "clone",
+            "sso://user/gredelston/.dotfiles",
+            str(DF_CORP_DOTFILES),
+        ],
+    )
 
 
 def setup_bashrc(fsi: FSInterface) -> None:
@@ -146,6 +168,7 @@ def main(argv: list[str]) -> None:
     logging.basicConfig(level=logging.INFO)
     args = parse_args(argv)
     fsi = FSInterface(args.pretend)
+    setup_corp_dotfiles(fsi)
     setup_bashrc(fsi)
     setup_gitconfig(fsi)
     setup_tmux(fsi)
