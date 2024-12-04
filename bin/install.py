@@ -3,6 +3,7 @@
 """Install any dotfiles that aren't already linked to this repo."""
 
 import argparse
+import enum
 import logging
 from pathlib import Path
 import subprocess
@@ -32,11 +33,29 @@ DF_VIMRC = DF / VIMRC
 DF_ZSHRC = DF / ZSHRC
 
 
+class Target(enum.StrEnum):
+    """Things we might want to install."""
+    BASHRC = ".bashrc"
+    CORP_DOTFILES = "corp-dotfiles"
+    GITCONFIG = ".gitconfig"
+    TMUX_CONF = ".tmux.conf"
+    VIMRC = ".vimrc"
+    ZSHRC = ".zshrc"
+
+
 def parse_args(argv: list[str]) -> argparse.Namespace:
     """Interpret command-line options for this script."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--pretend", help="Don't actually change anything", action="store_true"
+    )
+    parser.add_argument(
+        "--only",
+        nargs="*",
+        help="Only install the selected config(s)",
+        dest="targets",
+        choices=[target.value for target in Target],
+        default=[target.value for target in Target],
     )
     return parser.parse_args(argv)
 
@@ -168,12 +187,18 @@ def main(argv: list[str]) -> None:
     logging.basicConfig(level=logging.INFO)
     args = parse_args(argv)
     fsi = FSInterface(args.pretend)
-    setup_corp_dotfiles(fsi)
-    setup_bashrc(fsi)
-    setup_gitconfig(fsi)
-    setup_tmux(fsi)
-    setup_vimrc(fsi)
-    setup_zshrc(fsi)
+    if Target.CORP_DOTFILES in args.targets:
+        setup_corp_dotfiles(fsi)
+    if Target.BASHRC in args.targets:
+        setup_bashrc(fsi)
+    if Target.GITCONFIG in args.targets:
+        setup_gitconfig(fsi)
+    if Target.TMUX_CONF in args.targets:
+        setup_tmux(fsi)
+    if Target.VIMRC in args.targets:
+        setup_vimrc(fsi)
+    if Target.ZSHRC in args.targets:
+        setup_zshrc(fsi)
 
 
 if __name__ == "__main__":
