@@ -35,26 +35,5 @@ alias e="eza"
 
 # Google-specific aliases.
 if on_google_host; then
-  # Note: `alias tmux=tmx2` is important and Google-specific, but it is handled
-  # separately in tmux.zsh (which should be sourced before this).
-
-  # repo aliases.
-  alias ru.="repo upload --cbr ."
-  alias ru.y="repo upload --cbr . -y"
-
-  # recipes aliases.
-  alias rtt="./recipes.py test train"
-  alias fart="git cl format --no-clang-format --python && ./recipes.py test train"
-
-  # git aliases
-  alias gups="git branch --set-upstream-to m/main"
+  source $DOTFILES/corp-dotfiles/zsh/aliases.zsh
 fi
-
-# Host-specific aliases.
-case $HOST in
-  gregs-cool-cloudtop.c.googlers.com)
-    # Android development conveniences
-    alias HOW_TO_BUILD_ANDROID='echo ". build/envsetup.sh\nlunch cf_x86_64_desktop-trunk_staging-eng\nm installclean\nm"'
-    ;;
-esac
-
