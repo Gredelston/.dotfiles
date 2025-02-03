@@ -29,6 +29,14 @@ fi
 
 # Re-execute in tmux, if necessary.
 if should_reexecute_in_tmux; then
-  tmux new-session -A
+  case $HOST in
+    gregs-cool-cloudtop.c.googlers.com)
+      session_name="work"
+      ;;
+    *)
+      session_name="greg"
+      ;;
+  esac
+  tmux new-session -A -s $session_name
 fi
 
