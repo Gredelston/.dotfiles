@@ -32,6 +32,7 @@ alias rgstar="suggest_better_command 'rg -t star'"
 alias ls="ls --color=auto"
 alias zshrc="nvim ~/.dotfiles/.zshrc"
 alias e="eza"
+alias fd="fdfind"
 
 # Google-specific aliases.
 if on_google_host; then
