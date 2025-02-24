@@ -38,3 +38,8 @@ alias fd="fdfind"
 if on_google_host; then
   source $DOTFILES/corp-dotfiles/zsh/aliases.zsh
 fi
+
+# Host-specific aliases.
+if [[ $(hostname) = scullery ]]; then
+  alias tmux-minecraft='sudo su - minecraft-server -c "tmux attach -t minecraft-server"'
+fi
