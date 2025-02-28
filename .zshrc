@@ -1,11 +1,9 @@
 # Import other zshrc scripts.
+# Start with stuff that needs to be available: env vars and functions.
 export DOTFILES=$HOME/.dotfiles
-# Start by sourcing functions, because we want them to be available, and
-# functions.zsh shouldn't actually call anything.
 source $DOTFILES/zsh/functions.zsh
-# Then re-execute in tmux, if necessary.
+source $DOTFILES/zsh/env.zsh
 source $DOTFILES/zsh/tmux.zsh
-# Then other stuff that can happen in any order.
 source $DOTFILES/zsh/aliases.zsh
 
 # Set up PATH
