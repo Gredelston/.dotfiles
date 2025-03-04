@@ -6,9 +6,6 @@ source $DOTFILES/zsh/env.zsh
 source $DOTFILES/zsh/tmux.zsh
 source $DOTFILES/zsh/aliases.zsh
 
-# Set up PATH
-export PATH=$HOME/.local/bin:$PATH
-
 # Install zsh plugins.
 if [[ ! -d $HOME/.zsh ]]; then mkdir $HOME/.zsh; fi
 if [[ ! -d $HOME/.zsh/powerlevel10k ]]; then
@@ -101,9 +98,6 @@ fi
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}  
 
 # ChromeOS workspace stuff
-if on_google_host; then
-  export PATH=$HOME/depot_tools:$PATH
-fi
 if [[ $HOST = gregs-cool-cloudtop.c.googlers.com ]]; then
   export SKIP_GCE_AUTH_FOR_GIT=1
 fi
