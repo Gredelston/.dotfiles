@@ -4,6 +4,7 @@
 
 # Set up PATH
 export PATH=$HOME/.local/bin:$PATH
+export PATH=$PATH:$HOME/.cargo/bin
 
 # Google-specific env.
 if on_google_host; then
