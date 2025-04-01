@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 #######################################
 # Pretty-print a line of text in a block of octothorps.
 #######################################
