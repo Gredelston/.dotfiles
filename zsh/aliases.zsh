@@ -4,7 +4,7 @@
 # Tell the user to use a different command.
 #######################################
 function suggest_better_command() {
-  echo "Use \`$1\` instead!"
+	echo "Use \`$1\` instead!"
 }
 
 # Git aliases.
@@ -36,10 +36,10 @@ alias fd="fdfind"
 
 # Google-specific aliases.
 if on_google_host; then
-  source $DOTFILES/corp-dotfiles/zsh/aliases.zsh
+	source $DOTFILES/corp-dotfiles/zsh/aliases.zsh
 fi
 
 # Host-specific aliases.
 if [[ $(hostname) = scullery ]]; then
-  alias tmux-minecraft='sudo su - minecraft-server -c "tmux attach -t minecraft-server"'
+	alias tmux-minecraft='sudo su - minecraft-server -c "tmux attach -t minecraft-server"'
 fi

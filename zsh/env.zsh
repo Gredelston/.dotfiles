@@ -8,6 +8,6 @@ export PATH=$PATH:$HOME/.cargo/bin
 
 # Google-specific env.
 if on_google_host; then
-  export PATH=$HOME/depot_tools:$PATH
-  source $DOTFILES/corp-dotfiles/zsh/env.zsh
+	export PATH=$HOME/depot_tools:$PATH
+	source $DOTFILES/corp-dotfiles/zsh/env.zsh
 fi
