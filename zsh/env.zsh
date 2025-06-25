@@ -11,3 +11,7 @@ if on_google_host; then
 	export PATH=$HOME/depot_tools:$PATH
 	source $DOTFILES/corp-dotfiles/zsh/env.zsh
 fi
+
+if [[ -e "$HOME/env.zsh" ]]; then
+	source $HOME/env.zsh
+fi
