@@ -67,7 +67,7 @@ bindkey  '\e[Z'   reverse-menu-complete # [Shift-Tab] - go back in the menu]
 
 # Enable history saving, from go/zsh-prompt
 HISTFILE=~/.histfile
-HISTSIZE=1000
+HISTSIZE=100000
 SAVEHIST=$HISTSIZE
 setopt appendhistory
 setopt share_history        # share history between multiple instances of zsh
