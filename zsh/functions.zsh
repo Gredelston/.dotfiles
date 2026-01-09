@@ -67,3 +67,14 @@ function filesize() {
 if on_google_host; then
 	source $DOTFILES/corp-dotfiles/zsh/functions.zsh
 fi
+
+# Host-specific functions.
+if [[ $(hostname) = scullery ]]; then
+	tmux-minecraft() {
+		if [[ -n "$TMUX" ]]; then
+			echo "Error: You are already in a tmux session. Nesting is confusing!"
+			return 1
+		fi
+		sudo su - minecraft-server -c "tmux attach -t minecraft-server"
+	}
+fi

@@ -41,5 +41,5 @@ fi
 
 # Host-specific aliases.
 if [[ $(hostname) = scullery ]]; then
-	alias tmux-minecraft='sudo su - minecraft-server -c "tmux attach -t minecraft-server"'
+	echo ""
 fi
