@@ -41,5 +41,8 @@ fi
 
 # Host-specific aliases.
 if [[ $(hostname) = scullery ]]; then
-	echo ""
+	alias mc-start='sudo systemctl start minecraft-server'
+	alias mc-stop='sudo systemctl stop minecraft-server'
+	alias mc-restart='sudo systemctl restart minecraft-server'
+	alias mc-status='sudo systemctl status minecraft-server'
 fi
