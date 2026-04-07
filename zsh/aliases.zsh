@@ -35,8 +35,8 @@ alias e="eza"
 alias fd="fdfind"
 
 # Google-specific aliases.
-if on_google_host; then
-	source $DOTFILES/corp-dotfiles/zsh/aliases.zsh
+if [[ -f "$DOTFILES/corp-dotfiles/zsh/aliases.zsh" ]]; then
+	source "$DOTFILES/corp-dotfiles/zsh/aliases.zsh"
 fi
 
 # Host-specific aliases.
