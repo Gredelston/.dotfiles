@@ -20,7 +20,7 @@ ZSHRC = ".zshrc"
 HOME = Path.home()
 HOME_BASHRC = HOME / BASHRC
 HOME_GITCONFIG = HOME / GITCONFIG
-HOME_TMUX_CONF = HOME / TMUX_CONF
+HOME_TMUX_CONF = HOME / ".config" / "tmux" / "tmux.conf"
 HOME_VIMRC = HOME / VIMRC
 HOME_ZSHRC = HOME / ZSHRC
 
@@ -28,7 +28,8 @@ DF = HOME / ".dotfiles"
 DF_BASHRC = DF / BASHRC
 DF_CORP_DOTFILES = DF / "corp-dotfiles"
 DF_GITCONFIG = DF / GITCONFIG
-DF_TMUX_CONF = DF / TMUX_CONF
+DF_TMUX_CONF = DF / "config" / "tmux" / "tmux.conf"
+DF_INIT_VIM = DF / "config" / "nvim" / "init.vim"
 DF_VIMRC = DF / VIMRC
 DF_ZSHRC = DF / ZSHRC
 
@@ -173,16 +174,22 @@ def setup_gitconfig(fsi: FSInterface) -> None:
 
 
 def setup_tmux(fsi: FSInterface) -> None:
-    """Setup .tmux.conf, the config file for Tmux."""
+    """Setup tmux.conf, the config file for Tmux."""
+    fsi.ensure_dir_exists(HOME_TMUX_CONF.parent)
     if HOME_TMUX_CONF.is_file():
-        logging.info("%s exists. Not linking %s.", HOME_TMUX_CONF, TMUX_CONF)
+        logging.info("%s exists. Not linking.", HOME_TMUX_CONF)
         return
     fsi.create_symlink(DF_TMUX_CONF, HOME_TMUX_CONF)
 
 
 def setup_vimrc(fsi: FSInterface) -> None:
-    """Setup .vimrc, the config file for vi/vim."""
-    append_import_lines(fsi, HOME_VIMRC, [f"source {DF_VIMRC}"])
+    """Setup init.vim and .vimrc fallback."""
+    home_init_vim = HOME / ".config" / "nvim" / "init.vim"
+    fsi.ensure_dir_exists(home_init_vim.parent)
+    if not home_init_vim.is_file():
+        fsi.create_symlink(DF_INIT_VIM, home_init_vim)
+    if not HOME_VIMRC.is_file():
+        fsi.create_symlink(home_init_vim, HOME_VIMRC)
 
 
 def main(argv: list[str]) -> None:

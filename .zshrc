@@ -78,7 +78,7 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/powerlevel10k/powerlevel9k.zsh-theme
 
 # Customize rg (ripgrep)
-export RIPGREP_CONFIG_PATH=${HOME}/.dotfiles/.ripgreprc
+export RIPGREP_CONFIG_PATH=${HOME}/.dotfiles/config/ripgrep/config
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
