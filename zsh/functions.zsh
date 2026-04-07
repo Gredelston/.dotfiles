@@ -67,8 +67,8 @@ function filesize() {
 }
 
 # Google-specific functions.
-if [[ -f "$DOTFILES/corp-dotfiles/zsh/functions.zsh" ]]; then
-	source "$DOTFILES/corp-dotfiles/zsh/functions.zsh"
+if [[ -f "$CORP_DOTFILES/zsh/functions.zsh" ]]; then
+	source "$CORP_DOTFILES/zsh/functions.zsh"
 fi
 
 # Host-specific functions.

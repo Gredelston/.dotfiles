@@ -11,8 +11,9 @@ if [[ -d "$HOME/depot_tools" ]]; then
 	export PATH=$HOME/depot_tools:$PATH
 fi
 
-if [[ -f "$DOTFILES/corp-dotfiles/zsh/env.zsh" ]]; then
-	source "$DOTFILES/corp-dotfiles/zsh/env.zsh"
+export CORP_DOTFILES="$DOTFILES/corp-dotfiles"
+if [[ -f "$CORP_DOTFILES/zsh/env.zsh" ]]; then
+	source "$CORP_DOTFILES/zsh/env.zsh"
 fi
 
 if [[ -e "$HOME/env.zsh" ]]; then
