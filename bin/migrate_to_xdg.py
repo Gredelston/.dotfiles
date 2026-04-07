@@ -15,8 +15,8 @@ def cleanup_legacy_symlinks() -> None:
         home / ".init.vim",
     ]
     for target in targets:
-        if target.is_symlink():
-            logging.info("Removing legacy symlink: %s", target)
+        if target.exists() or target.is_symlink():
+            logging.info("Removing legacy target: %s", target)
             target.unlink()
 
 def run_installer() -> None:
