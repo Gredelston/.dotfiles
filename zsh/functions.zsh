@@ -18,9 +18,12 @@ function octothorprint_line() {
 #   0 if the host is a Google machine, else 1.
 #######################################
 function on_google_host() {
-	return $(test -d '/google')
+	if [[ -d '/google' ]]; then
+		return 0
+	else
+		return 1
+	fi
 }
-
 #######################################
 # Print a file's size.
 #######################################
