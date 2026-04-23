@@ -6,11 +6,14 @@
 #   0 if should reexecute in tmux, else 1.
 #######################################
 function should_reexecute_in_tmux() {
+	# Skip if we don't have a real terminal (e.g. during P10k instant prompt)
+	[[ -t 1 ]] || return 1
+
 	# Hosts that are primarily used to SSH into other machines
 	# should not reexecute in tmux, or else we'll have nested
 	# sessions.
 	case $HOST in
-	gredelston-carbon-v9)
+	gredelston-carbon-v9|gregs-cool-carbon12)
 		return 1
 		;;
 	*)
