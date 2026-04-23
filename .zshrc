@@ -1,8 +1,8 @@
 # Import other zshrc scripts.
 # Start with stuff that needs to be available: env vars and functions.
 export DOTFILES=$HOME/.dotfiles
-source $DOTFILES/zsh/functions.zsh
 source $DOTFILES/zsh/env.zsh
+source $DOTFILES/zsh/functions.zsh
 source $DOTFILES/zsh/tmux.zsh
 source $DOTFILES/zsh/aliases.zsh
 
