@@ -6,6 +6,7 @@
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/agents/bin
 
 # Google-specific env.
 if [[ -d "$HOME/depot_tools" ]]; then
